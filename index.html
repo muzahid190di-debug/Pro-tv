@@ -6,6 +6,10 @@
 <title>Pro TV - প্রো টিভি | Smart IPTV Player</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20192%20192%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%232563eb%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2306b6d4%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22192%22%20height%3D%22192%22%20rx%3D%2242%22%20fill%3D%22url(%23g)%22%2F%3E%3Crect%20x%3D%2236%22%20y%3D%2260%22%20width%3D%22120%22%20height%3D%2284%22%20rx%3D%2212%22%20fill%3D%22%230b0f19%22%20stroke%3D%22white%22%20stroke-width%3D%226%22%2F%3E%3Cpolygon%20points%3D%2284%2C90%2084%2C114%20108%2C102%22%20fill%3D%22white%22%2F%3E%3Crect%20x%3D%2272%22%20y%3D%22152%22%20width%3D%2248%22%20height%3D%228%22%20rx%3D%224%22%20fill%3D%22white%22%2F%3E%3C%2Fsvg%3E">
 <meta name="theme-color" content="#2563eb">
+<!-- 🟢 Cache Control for GitHub Updates -->
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
@@ -72,9 +76,7 @@ video::-webkit-media-controls{display:none!important}video::-webkit-media-contro
 </div>
 
 <div id="playerOverlay" class="fixed inset-0 bg-black z-50 flex flex-col">
-  <!-- Video Blocker fixed to always capture taps -->
   <div id="videoBlocker" style="pointer-events: auto; cursor: pointer;" class="absolute inset-0 z-20 bg-black" onclick="handleTap()"></div>
-  
   <video id="tvVideoPlayer" style="width:100%; height:100%; object-fit:fill;" class="relative z-0 bg-black" crossorigin="anonymous" playsinline webkit-playsinline muted disablePictureInPicture></video>
   
   <div id="noSignalScreen" class="hidden absolute inset-0 bg-black z-10 flex-col items-center justify-center pointer-events-none">
@@ -112,6 +114,9 @@ video::-webkit-media-controls{display:none!important}video::-webkit-media-contro
   </div>
 </div>
 
+<!-- Modals (Pin, Admin, Add Channel, Browse, Playlist, Source, Context, Edit, Confirm, Alert) -->
+<!-- (Your modals remain exactly the same) -->
+<!-- Include all modals from previous code -->
 <div id="pinAuthModal" class="fixed inset-0 bg-black/90 z-[200] flex items-center justify-center p-4 hidden">
   <div class="bg-tvbg-900 border border-slate-700 w-full max-w-sm rounded-2xl p-6 text-center space-y-4 modal-active">
     <h3 class="text-sm font-bold text-white" id="pinModalTitle">এডমিন পিন দিন</h3>
@@ -334,6 +339,7 @@ const MAX_HEAL_ATTEMPTS = 1; // ONLY 1 attempt to prevent spamming
 const DTH_DISPLAY_MS = 2000;
 const CONTROLS_AUTO_HIDE_MS = 5000;
 const OK_HOLD_MS = 5000;
+const SWITCH_COOLDOWN = 1500; // 1.5 seconds hard cooldown between switches
 
 const state = {
   channels:[], currentIndex:-1, isAdmin:false, hls:null, selectedChannelId:null, currentAttemptProxyIdx:0,
@@ -341,7 +347,7 @@ const state = {
   volume:0.7, currentSourceType:'m3u', selectedWizSourceId:'', lastSyncTime:0, lastUrlRefresh:0,
   refreshingUrls:false, healingInProgress:false, channelHealAttempts:{}, usingNativePlayer:false, fetchingPlaylist:false,
   isZapping:false, browseSourceId:null, browseChannels:[], lastRemovedChannel:null, playSessionId:0,
-  listFocusIndex:0
+  listFocusIndex:0, lastSwitchTime:0
 };
 
 const video=document.getElementById('tvVideoPlayer');
@@ -615,7 +621,6 @@ async function attemptAutoHeal(ch, targetIndex, sessionId) {
   state.healingInProgress = true;
   
   try {
-    // 1. Try memory cache first (Instant)
     for (let src of state.sources) {
       if (src.channels && src.channels.length > 0) {
         let match = src.channels.find(p => normalizeName(p.name) === normalizeName(ch.name));
@@ -630,7 +635,6 @@ async function attemptAutoHeal(ch, targetIndex, sessionId) {
       }
     }
 
-    // 2. Network fetch if memory fails (Silent, no toast)
     let sourcesToCheck = [...state.sources];
     const activeSrc = getActiveSource();
     if (activeSrc) sourcesToCheck = sourcesToCheck.sort((a, b) => a.id === activeSrc.id ? -1 : 1);
@@ -700,7 +704,6 @@ async function cloudPullMaster(){
 }
 
 async function cloudPushMaster(){
-  // ⚡ FIX: STRICT REPLACEMENT. No merging. What mobile has is what TV gets.
   var activeSrc=state.sources.find(s=>s.id===state.activeSourceId);
   if(activeSrc&&state.channels.length>0)activeSrc.channels=JSON.parse(JSON.stringify(state.channels));
   
@@ -710,7 +713,6 @@ async function cloudPushMaster(){
     if(s.server) copy.server = s.server;
     if(s.user) copy.user = s.user;
     if(s.pass) copy.pass = s.pass;
-    // Do not send _lastFetch or _freshCache
     if(s.channels && s.channels.length > 0) {
       copy.channels = s.channels.map(c => ({
         id: c.id, name: c.name, url: c.url, category: c.category, logo: c.logo
@@ -752,7 +754,6 @@ function applyRemoteUpdate(remote) {
   if(!remote || !remote.sources) return;
   var oldName = state.channels[state.currentIndex] ? state.channels[state.currentIndex].name : null;
   
-  // ⚡ FIX: FULL OVERWRITE. No merging. TVs state must match Mobile state.
   state.sources = remote.sources;
   var active = state.sources.find(s => s.id === state.activeSourceId) || state.sources[0];
   state.activeSourceId = active.id;
@@ -1198,7 +1199,7 @@ function updateListFocus() {
 
 var _lSearch=document.getElementById('listSearch');if(_lSearch)_lSearch.addEventListener('input',renderList);
 
-/* ==================== PLAYER ==================== */
+/* ==================== PLAYER (ANTI-FREEZE FIX) ==================== */
 let mediaRecoveryAttempts = 0;
 
 function initHLS(){
@@ -1207,6 +1208,7 @@ function initHLS(){
   video.oncanplay = null;
   video.onerror = null;
   
+  // HARD CLEANUP: Destroy old instance and clear video element
   if(state.hls){
     try{ state.hls.stopLoad(); }catch(e){}
     try{ state.hls.detachMedia(); }catch(e){}
@@ -1224,7 +1226,7 @@ function initHLS(){
   state.hls=new Hls({
     enableWorker:true,
     lowLatencyMode:false,
-    maxBufferLength:10,
+    maxBufferLength:10, // Keep low to prevent WebView crashes
     maxMaxBufferLength:20,
     manifestLoadingTimeOut:4000,
     fragLoadingTimeOut:4000,
@@ -1233,7 +1235,7 @@ function initHLS(){
     startLevel:-1,
     capLevelToPlayerSize:true,
     startFragPrefetch:true,
-    abrEwmaDefaultEstimate:2000000,
+    abrEwmaDefaultEstimate:1000000, // Lower estimate for stability
     xhrSetup:function(xhr){xhr.withCredentials=false}
   });
   
@@ -1260,7 +1262,7 @@ function initHLS(){
     var isToffee = ch && ch.url.indexOf('edge-cache-token') !== -1;
 
     if(data.type===Hls.ErrorTypes.MEDIA_ERROR){
-      if(mediaRecoveryAttempts < 2){
+      if(mediaRecoveryAttempts < 1){ // Only try once
         mediaRecoveryAttempts++;
         state.hls.recoverMediaError();
       } else {
@@ -1270,7 +1272,7 @@ function initHLS(){
     }
     
     if(data.type===Hls.ErrorTypes.NETWORK_ERROR){
-      // 🟢 INSTANT TOFFEE HEAL
+      // INSTANT TOFFEE HEAL
       if (isToffee && !state.healingInProgress) {
           var healKey = normalizeName(ch.name);
           state.channelHealAttempts[healKey] = (state.channelHealAttempts[healKey] || 0) + 1;
@@ -1405,6 +1407,12 @@ function loadStreamSource(rawUrl,isHealRetry,sessionId){
 
 function playChannel(ch,index){
   if(state.switching)return;
+  
+  // 🟢 HARD COOLDOWN: Prevent rapid switching which causes WebView crashes
+  let now = Date.now();
+  if (now - state.lastSwitchTime < SWITCH_COOLDOWN) return;
+  state.lastSwitchTime = now;
+  
   state.switching=true;
   
   state.playSessionId++;
@@ -1830,4 +1838,4 @@ window.addEventListener('popstate',function(e){
 });
 </script>
 </body>
-</html>
+  </html>
