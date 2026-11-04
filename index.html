@@ -104,7 +104,7 @@ video::-webkit-media-controls{display:none!important}video::-webkit-media-contro
 <div id="channelListModal" class="fixed inset-0 bg-black/80 z-[60] flex flex-col justify-end hidden opacity-0 transition-opacity duration-300">
   <div class="bg-[#0b0f19] w-full h-[75vh] rounded-t-2xl border-t border-slate-700 flex flex-col transform translate-y-full transition-transform duration-300" id="channelListSheet">
     <div class="p-3 border-b border-slate-800 flex justify-between items-center shrink-0">
-      <h3 class="text-sm font-bold text-white"><i class="fa-solid fa-list text-brand-accent mr-2"></i>সব চ্যানেল</h3>
+      <h3 class="text-sm font-bold text-white"><i class="fa-solid fa-list text-brand-accent mr-2"></i>সব চ্যানেল <span class="text-[10px] text-slate-400 ml-2 hidden md:inline">(রিমোটে ↑↓←→ দিয়ে নেভিগেট)</span></h3>
       <button onclick="toggleChannelList()" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
     </div>
     <div class="p-3 shrink-0"><input type="text" id="listSearch" placeholder="চ্যানেল খুঁজুন..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-accent transition-colors"></div>
@@ -335,7 +335,6 @@ const MAX_HEAL_ATTEMPTS = 1;
 const DTH_DISPLAY_MS = 2000;
 const CONTROLS_AUTO_HIDE_MS = 5000;
 const OK_HOLD_MS = 5000;
-const SWITCH_COOLDOWN = 2000; // 2 seconds HARD LOCK
 
 const state = {
   channels:[], currentIndex:-1, isAdmin:false, hls:null, selectedChannelId:null, currentAttemptProxyIdx:0,
@@ -1195,7 +1194,7 @@ function updateListFocus() {
 
 var _lSearch=document.getElementById('listSearch');if(_lSearch)_lSearch.addEventListener('input',renderList);
 
-/* ==================== PLAYER (BULLETPROOF ANTI-FREEZE) ==================== */
+/* ==================== PLAYER (ANTI-FREEZE SILENT FIX) ==================== */
 let mediaRecoveryAttempts = 0;
 
 function initHLS(){
@@ -1204,7 +1203,7 @@ function initHLS(){
   video.oncanplay = null;
   video.onerror = null;
   
-  // 1. AGGRESSIVE DESTROY OLD HLS
+  // Aggressive Memory Flush
   if(state.hls){
     try{ state.hls.stopLoad(); }catch(e){}
     try{ state.hls.detachMedia(); }catch(e){}
@@ -1215,16 +1214,14 @@ function initHLS(){
   state.usingNativePlayer = false;
   mediaRecoveryAttempts = 0;
   
-  // 2. FLUSH VIDEO MEMORY
   video.pause();
   video.removeAttribute('src');
   video.load();
 
-  // 3. CREATE FRESH HLS WITH SAFE BUFFER
   state.hls=new Hls({
     enableWorker:true,
     lowLatencyMode:false,
-    maxBufferLength:8, // Very small buffer to prevent WebView OOM
+    maxBufferLength:8, 
     maxMaxBufferLength:15,
     manifestLoadingTimeOut:4000,
     fragLoadingTimeOut:4000,
@@ -1233,7 +1230,7 @@ function initHLS(){
     startLevel:-1,
     capLevelToPlayerSize:true,
     startFragPrefetch:true,
-    abrEwmaDefaultEstimate:800000, // Lower bandwidth estimate
+    abrEwmaDefaultEstimate:800000,
     xhrSetup:function(xhr){xhr.withCredentials=false}
   });
   
@@ -1405,12 +1402,9 @@ function loadStreamSource(rawUrl,isHealRetry,sessionId){
 function playChannel(ch,index){
   if(state.switching)return;
   
-  // 🟢 THE HARD COOLDOWN LOCK (Prevents WebView Freeze)
+  // 🟢 SILENT COOLDOWN: 500ms to prevent rapid WebView memory leak
   let now = Date.now();
-  if (now - state.lastSwitchTime < SWITCH_COOLDOWN) {
-    showAlert("অনুগ্রহ করে একটু অপেক্ষা করুন...", "Please Wait");
-    return;
-  }
+  if (now - state.lastSwitchTime < 500) return;
   state.lastSwitchTime = now;
   
   state.switching=true;
