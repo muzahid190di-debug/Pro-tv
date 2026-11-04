@@ -112,7 +112,8 @@ video::-webkit-media-controls{display:none!important}video::-webkit-media-contro
   </div>
 </div>
 
-<!-- Modals -->
+<!-- Modals (Pin, Admin, Add Channel, Browse, Playlist, Source, Context, Edit, Confirm, Alert) -->
+<!-- Include all modals from previous code -->
 <div id="pinAuthModal" class="fixed inset-0 bg-black/90 z-[200] flex items-center justify-center p-4 hidden">
   <div class="bg-tvbg-900 border border-slate-700 w-full max-w-sm rounded-2xl p-6 text-center space-y-4 modal-active">
     <h3 class="text-sm font-bold text-white" id="pinModalTitle">এডমিন পিন দিন</h3>
@@ -791,28 +792,30 @@ function resolveActiveChannels(remote){
 async function pullMasterOnBoot(){
   var cached=loadCachedChannels();
   var localHasData=cached&&cached.channels&&cached.channels.length>0;
+  
+  try{
+    var remote=await Promise.race([cloudPullMaster(),new Promise(r=>setTimeout(()=>r(null),2000))]);
+    if(remote&&remote.sources&&remote.sources.length>0){
+      var remoteTime = remote.updatedAt || 0;
+      var cacheTime = (cached && cached.time) || 0;
+      
+      if (remoteTime >= cacheTime || !localHasData) {
+        state.sources = remote.sources;
+        var ch = resolveActiveChannels(remote);
+        if(ch) state.channels = ch;
+        state.lastSyncTime = remoteTime;
+        saveChannels(); saveSources();
+        renderCategories(); renderList();
+        return true;
+      }
+    }
+  }catch(e){}
+  
   if(localHasData){
     state.channels=cached.channels;
     state.lastSyncTime=cached.time||0;
     renderCategories();renderList();
-    try{
-      var remote=await Promise.race([cloudPullMaster(),new Promise(r=>setTimeout(()=>r(null),2000))]);
-      if(remote&&remote.sources&&remote.sources.length>0){
-        remote.sources.forEach(rs=>{ if(!state.sources.find(ls=>ls.id===rs.id))state.sources.push(rs); });
-        saveSources();
-      }
-    }catch(e){}
     return true;
-  }
-  var remote=await cloudPullMaster();
-  if(remote&&remote.sources&&remote.sources.length>0){
-    state.sources=remote.sources;
-    var ch=resolveActiveChannels(remote);
-    if(ch)state.channels=ch;
-    state.lastSyncTime=remote.updatedAt||0;
-    saveChannels();saveSources();
-    renderCategories();renderList();
-    return state.channels.length>0;
   }
   return false;
 }
@@ -1203,7 +1206,6 @@ function initHLS(){
   video.oncanplay = null;
   video.onerror = null;
   
-  // Aggressive Memory Flush
   if(state.hls){
     try{ state.hls.stopLoad(); }catch(e){}
     try{ state.hls.detachMedia(); }catch(e){}
@@ -1402,7 +1404,6 @@ function loadStreamSource(rawUrl,isHealRetry,sessionId){
 function playChannel(ch,index){
   if(state.switching)return;
   
-  // 🟢 SILENT COOLDOWN: 500ms to prevent rapid WebView memory leak
   let now = Date.now();
   if (now - state.lastSwitchTime < 500) return;
   state.lastSwitchTime = now;
@@ -1832,4 +1833,4 @@ window.addEventListener('popstate',function(e){
 });
 </script>
 </body>
-  </html>
+                                                                                                                                                                                                                         </html>
