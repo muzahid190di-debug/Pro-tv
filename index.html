@@ -73,7 +73,8 @@ video::-webkit-media-controls{display:none!important}video::-webkit-media-contro
 </div>
 
 <div id="playerOverlay" class="fixed inset-0 bg-black z-50 flex flex-col">
-  <div id="videoBlocker" tabindex="0" style="pointer-events:auto;cursor:pointer;" class="absolute inset-0 z-20 bg-black" onclick="handleTap()"></div>
+  <!-- ✅ videoBlocker: tabindex for D-pad focus. onclick removed - using pointer events only -->
+  <div id="videoBlocker" tabindex="0" style="pointer-events:auto;cursor:pointer;outline:none;" class="absolute inset-0 z-20 bg-black"></div>
   <video id="tvVideoPlayer" style="width:100%;height:100%;object-fit:fill;" class="relative z-0 bg-black" crossorigin="anonymous" playsinline webkit-playsinline muted disablePictureInPicture></video>
   
   <div id="noSignalScreen" class="hidden absolute inset-0 bg-black z-10 flex-col items-center justify-center pointer-events-none">
@@ -100,7 +101,7 @@ video::-webkit-media-controls{display:none!important}video::-webkit-media-contro
   </div>
 </div>
 
-<!-- ✅ LEFT SIDEBAR CHANNEL LIST -->
+<!-- LEFT SIDEBAR CHANNEL LIST -->
 <div id="channelListModal" class="fixed inset-0 bg-black/80 z-[60] hidden opacity-0 transition-opacity duration-300">
   <div id="channelListSheet" class="bg-[#0b0f19] w-[85vw] sm:w-96 max-w-md h-full border-r border-slate-700 flex flex-col transform -translate-x-full transition-transform duration-300 shadow-2xl">
     <div class="p-3 border-b border-slate-800 flex justify-between items-center shrink-0">
@@ -470,7 +471,6 @@ function initAudioContext(){
     audioCtx=new AC();
     audioSource=audioCtx.createMediaElementSource(video);
 
-    // Limiter: gentle
     audioCompressor=audioCtx.createDynamicsCompressor();
     audioCompressor.threshold.value = -12;
     audioCompressor.knee.value = 8;
@@ -478,16 +478,13 @@ function initAudioContext(){
     audioCompressor.attack.value = 0.003;
     audioCompressor.release.value = 0.15;
 
-    // AGC gain
     agcGain = audioCtx.createGain();
     agcGain.gain.value = 1.0;
 
-    // Analyser
     analyser = audioCtx.createAnalyser();
     analyser.fftSize = 2048;
     agcBuffer = new Float32Array(analyser.fftSize);
 
-    // Master gain (user volume)
     masterGain = audioCtx.createGain();
     masterGain.gain.value = state.volume;
 
@@ -571,7 +568,6 @@ function fetchWithTimeout(url,timeoutMs){
   });
 }
 
-// Fast check (manifest only) - used for wizard/browse
 async function isStreamValid(url){
   if(!url) return false;
   if(/\.(mp4|ts|mpd|m3u8)(\?|$)/i.test(url)) return true;
@@ -584,7 +580,6 @@ async function isStreamValid(url){
   return false;
 }
 
-// ✅ NEW: Real playback test for health checker
 function testStreamPlayable(url) {
   if (!url) return Promise.resolve(false);
   var isHls = url.indexOf('.m3u8') !== -1 || url.indexOf('m3u8') !== -1 || url.indexOf('edge-cache-token') !== -1;
@@ -666,6 +661,7 @@ async function fetchXtreamChannels(src){
     return data.map(ch=>({id:ch.stream_id.toString(),name:ch.name,logo:ch.stream_icon||'',category:ch.category_name?ch.category_name.toUpperCase():'LIVE',url:base+'/live/'+encodeURIComponent(src.user)+'/'+encodeURIComponent(src.pass)+'/'+ch.stream_id+'.m3u8'}))
   }catch(e){ return []; }
 }
+
 async function fetchChannelsFromSource(source,forceRefresh,isBackground){
   if(!source)return[];
   if(!forceRefresh && source.channels && source.channels.length>0) return source.channels;
@@ -1205,7 +1201,6 @@ function toggleChannelList(){
   if(modal.classList.contains('hidden')){
     modal.classList.remove('hidden');
     setTimeout(()=>{ modal.classList.remove('opacity-0'); sheet.classList.remove('-translate-x-full'); },10);
-    // Focus current channel if no search
     var visItems = document.querySelectorAll('#listGrid > div');
     var focusIdx = 0;
     if(state.currentIndex >= 0 && !document.getElementById('listSearch').value.trim()) {
@@ -1233,9 +1228,19 @@ function updateListFocus() {
 var _lSearch=document.getElementById('listSearch');
 if(_lSearch) _lSearch.addEventListener('input', function(){ state.listFocusIndex = 0; renderList(); });
 
-/* ==================== PLAYER ==================== */
+/* ==================== PLAYER (TOFFEE HEADERS FIX) ==================== */
 let mediaRecoveryAttempts = 0;
 function isVideoActuallyPlaying(){ return !video.paused && video.readyState >= 2 && video.currentTime > 0.3; }
+
+// ✅ Toffee stream headers — some CDNs require Referer/Origin
+function getStreamHeaders(url) {
+  var headers = {};
+  if (url.indexOf('toffee') !== -1 || url.indexOf('edge-cache-token') !== -1) {
+    headers['Referer'] = 'https://toffee.live/';
+    headers['Origin'] = 'https://toffee.live';
+  }
+  return headers;
+}
 
 function initHLS(sessionId){
   if(!Hls.isSupported())return;
@@ -1252,6 +1257,9 @@ function initHLS(sessionId){
   video.removeAttribute('src');
   video.load();
 
+  var currentUrl = state.channels[state.currentIndex] ? state.channels[state.currentIndex].url : '';
+  var extraHeaders = getStreamHeaders(currentUrl);
+
   state.hls=new Hls({
     enableWorker:false, lowLatencyMode:false,
     maxBufferLength:15, maxMaxBufferLength:30,
@@ -1259,7 +1267,13 @@ function initHLS(sessionId){
     manifestLoadingMaxRetry:2, fragLoadingMaxRetry:2,
     startLevel:-1, capLevelToPlayerSize:true, startFragPrefetch:true,
     abrEwmaDefaultEstimate:800000,
-    xhrSetup:function(xhr){xhr.withCredentials=false}
+    xhrSetup:function(xhr){
+      xhr.withCredentials=false;
+      // ✅ Apply Toffee headers
+      for (var k in extraHeaders) {
+        try { xhr.setRequestHeader(k, extraHeaders[k]); } catch(e) {}
+      }
+    }
   });
   state.hls.attachMedia(video);
 
@@ -1426,7 +1440,7 @@ function playChannel(ch,index){
   clearTimeout(window._zapTimer);
   window._zapTimer = setTimeout(() => { state.isZapping = false; }, 3000);
   var healKey=normalizeName(ch.name);state.channelHealAttempts[healKey]=0;
-  resetAGC();  // ✅ Reset AGC on channel switch to avoid loud burst
+  resetAGC();
   showDTHOSD(ch,index,true);
   setupAudioNormalization();
   initHLS(currentSession);
@@ -1496,12 +1510,14 @@ function showDTHOSD(ch,index, isNewChannel){
   }
 }
 
-/* ==================== TAP HANDLER ==================== */
+/* ==================== TAP HANDLER (TOUCH ONLY - NOT TV OK) ==================== */
 function resetControlTimer(){
   playerControls.classList.remove('hidden-ui');
   clearTimeout(window.controlTimeout);
   window.controlTimeout=setTimeout(()=>{if(!video.paused)playerControls.classList.add('hidden-ui')},CONTROLS_AUTO_HIDE_MS);
 }
+
+// ✅ Only trigger on real touch/mouse click, NOT on TV remote OK
 function handleTap(){
   setupAudioNormalization();
   var ch = state.channels[state.currentIndex];
@@ -1513,6 +1529,18 @@ function handleTap(){
     togglePlayPause();
   }
 }
+
+// Attach touch/click handlers separately to avoid TV remote OK triggering
+videoBlocker.addEventListener('click', function(e){
+  // e.detail === 0 means keyboard-triggered click — ignore for TV
+  if (e.detail === 0) return;
+  handleTap();
+});
+videoBlocker.addEventListener('touchend', function(e){
+  e.preventDefault();
+  handleTap();
+}, {passive:false});
+
 async function goFullscreen(){
   try{
     if(document.fullscreenElement || document.webkitFullscreenElement) return;
@@ -1522,7 +1550,7 @@ async function goFullscreen(){
   }catch(e){}
 }
 
-/* ==================== KEYBOARD / TV REMOTE (FIXED OK HOLD) ==================== */
+/* ==================== KEYBOARD / TV REMOTE (FIXED) ==================== */
 var numberBuffer='',numberTimeout=null;
 let okHoldTimer = null;
 let okHeld = false;
@@ -1535,22 +1563,18 @@ function isOkKey(e){
     || kc === 13 || kc === 23 || kc === 66;
 }
 
-// ✅ Use capture phase so no element can steal the event
+// ✅ KEY FIX: use capture:true, preventDefault, stopPropagation
+// and ignore e.repeat for OK. Also handle arrow keys reliably.
 window.addEventListener('keydown', function(e){
   var ae = document.activeElement;
   var isInput = ae && (ae.tagName === 'INPUT' || ae.tagName === 'TEXTAREA' || ae.isContentEditable);
   if (isInput) return;
 
-  // Reset focus to body for reliable TV remote events
-  if (ae && ae !== document.body && ae.tagName !== 'VIDEO' && !isInput) {
-    try { ae.blur(); } catch(err) {}
-  }
-
+  // ✅ Handle OK / Enter
   if (isOkKey(e)) {
     e.preventDefault();
     e.stopPropagation();
 
-    // Channel list open?
     var clModal = document.getElementById('channelListModal');
     if (!clModal.classList.contains('hidden')) {
       var items = document.querySelectorAll('#listGrid > div');
@@ -1558,8 +1582,7 @@ window.addEventListener('keydown', function(e){
       return;
     }
 
-    // Ignore key repeats while holding
-    if (e.repeat) return;
+    if (e.repeat) return;  // ignore held repeat
 
     if (!okHeld) {
       okHeld = true;
@@ -1575,6 +1598,7 @@ window.addEventListener('keydown', function(e){
     return;
   }
 
+  // ✅ Numbers
   if (e.key >= '0' && e.key <= '9') {
     e.preventDefault();
     numberBuffer += e.key;
@@ -1591,9 +1615,11 @@ window.addEventListener('keydown', function(e){
     return;
   }
 
+  // ✅ Arrow keys inside channel list
   var clModal2 = document.getElementById('channelListModal');
   if (!clModal2.classList.contains('hidden')) {
     e.preventDefault();
+    e.stopPropagation();
     var items2 = document.querySelectorAll('#listGrid > div');
     if (items2.length === 0) return;
     if (e.key === 'ArrowDown') { state.listFocusIndex = Math.min(state.listFocusIndex + 1, items2.length - 1); updateListFocus(); }
@@ -1604,24 +1630,28 @@ window.addEventListener('keydown', function(e){
     return;
   }
 
+  // ✅ Arrow keys on player
   var po = document.getElementById('playerOverlay');
   if (po && !po.classList.contains('hidden')) {
-    if (e.key === 'ArrowUp' || e.key === 'ChannelUp' || e.key === 'PageUp') { e.preventDefault(); playNextChannel(); }
-    else if (e.key === 'ArrowDown' || e.key === 'ChannelDown' || e.key === 'PageDown') { e.preventDefault(); playPrevChannel(); }
-    else if (e.key === 'ArrowLeft') { e.preventDefault(); state.volume = Math.max(0, state.volume - 0.1); applyVolume(); resetControlTimer(); }
-    else if (e.key === 'ArrowRight') { e.preventDefault(); state.volume = Math.min(1, state.volume + 0.1); applyVolume(); resetControlTimer(); }
-    else if (e.key === ' ') { e.preventDefault(); togglePlayPause(); }
-    else if (e.key === 'Escape' || e.key === 'Backspace') { e.preventDefault(); }
-    else if (e.key === 'l' || e.key === 'L') { e.preventDefault(); toggleChannelList(); }
+    if (e.key === 'ArrowUp' || e.key === 'ChannelUp' || e.key === 'PageUp') { e.preventDefault(); e.stopPropagation(); playNextChannel(); }
+    else if (e.key === 'ArrowDown' || e.key === 'ChannelDown' || e.key === 'PageDown') { e.preventDefault(); e.stopPropagation(); playPrevChannel(); }
+    else if (e.key === 'ArrowLeft') { e.preventDefault(); e.stopPropagation(); state.volume = Math.max(0, state.volume - 0.1); applyVolume(); resetControlTimer(); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); e.stopPropagation(); state.volume = Math.min(1, state.volume + 0.1); applyVolume(); resetControlTimer(); }
+    else if (e.key === ' ') { e.preventDefault(); e.stopPropagation(); togglePlayPause(); }
+    else if (e.key === 'Escape' || e.key === 'Backspace') { e.preventDefault(); e.stopPropagation(); }
+    else if (e.key === 'l' || e.key === 'L') { e.preventDefault(); e.stopPropagation(); toggleChannelList(); }
   }
-}, true);  // ✅ CAPTURE PHASE
+}, true);
 
 window.addEventListener('keyup', function(e){
   if (!isOkKey(e)) return;
   clearTimeout(okHoldTimer);
   if (okHeld && !okHoldFired) {
     var clModal = document.getElementById('channelListModal');
-    if (clModal.classList.contains('hidden')) handleTap();
+    if (clModal.classList.contains('hidden')) {
+      // short press = play/pause (only if not from a real click)
+      togglePlayPause();
+    }
   }
   okHeld = false;
   okHoldFired = false;
@@ -1824,7 +1854,7 @@ async function wizardAddChannel(){
   }finally{btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-bolt mr-1"></i> অ্যাড করুন'}
 }
 
-/* ==================== HEALTH CHECKER (REAL TEST) ==================== */
+/* ==================== HEALTH CHECKER ==================== */
 function openHealthChecker(){
   document.getElementById('adminPanelModal').classList.add('hidden');
   document.getElementById('healthCheckerModal').classList.remove('hidden');
@@ -1877,7 +1907,6 @@ async function startHealthCheck(){
   var liveCount = 0, deadCount = 0;
   var queue = channels.map((ch, i) => i);
   
-  // Pre-render all result placeholders
   var container = document.getElementById('healthResults');
   for (var i = 0; i < total; i++) {
     var wrap = document.createElement('div');
@@ -1948,7 +1977,7 @@ window.addEventListener('DOMContentLoaded',async function(){
       await Promise.race([loadPlaylistData(),new Promise(r=>setTimeout(()=>r(false),2500))]);
     }
   }catch(e){}
-  clearTimeout(forceHide);hideSplash();
+  clearTimeout(hideSplash);hideSplash();
   if(state.channels.length>0 && state.currentIndex === -1)playChannel(state.channels[0],0);
   setTimeout(()=>{if(video.paused&&video.readyState<2&&state.channels.length>0)retryCurrentChannel()},7000);
   startInstantSyncListener();
@@ -1997,4 +2026,4 @@ window.addEventListener('popstate',function(e){
 });
 </script>
 </body>
-  </html>
+</html>
