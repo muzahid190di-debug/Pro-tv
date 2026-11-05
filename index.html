@@ -6,16 +6,13 @@
 <title>Pro TV - প্রো টিভি</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20192%20192%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%232563eb%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2306b6d4%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22192%22%20height%3D%22192%22%20rx%3D%2242%22%20fill%3D%22url(%23g)%22%2F%3E%3Crect%20x%3D%2236%22%20y%3D%2260%22%20width%3D%22120%22%20height%3D%2284%22%20rx%3D%2212%22%20fill%3D%22%230b0f19%22%20stroke%3D%22white%22%20stroke-width%3D%226%22%2F%3E%3Cpolygon%20points%3D%2284%2C90%2084%2C114%20108%2C102%22%20fill%3D%22white%22%2F%3E%3Crect%20x%3D%2272%22%20y%3D%22152%22%20width%3D%2248%22%20height%3D%228%22%20rx%3D%224%22%20fill%3D%22white%22%2F%3E%3C%2Fsvg%3E">
 <meta name="theme-color" content="#2563eb">
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script>
-tailwind.config={darkMode:'class',theme:{extend:{colors:{brand:{500:'#3b82f6',600:'#2563eb',accent:'#06b6d4',neon:'#00f2fe'},tvbg:{950:'#070a12',900:'#0b0f19',800:'#131b2e'}},fontFamily:{sans:['Inter','Noto Sans Bengali','sans-serif']}}}}
+tailwind.config={darkMode:'class',theme:{extend:{colors:{brand:{500:'#3b82f6',600:'#2563eb',accent:'#06b6d4'},tvbg:{950:'#070a12',900:'#0b0f19',800:'#131b2e'}},fontFamily:{sans:['Inter','Noto Sans Bengali','sans-serif']}}}}
 </script>
 <style>
 video::-webkit-media-controls{display:none!important}video::-webkit-media-controls-enclosure{display:none!important}video::-webkit-media-controls-panel{display:none!important}video::-webkit-media-controls-play-button{display:none!important}video::-webkit-media-controls-start-playback-button{display:none!important;-webkit-appearance:none}video::-webkit-media-controls-overlay-play-button{display:none!important}video::-webkit-media-controls-fullscreen-button{display:none!important}
@@ -27,7 +24,7 @@ video::-webkit-media-controls{display:none!important}video::-webkit-media-contro
 .row-grip{cursor:grab;touch-action:none}.row-grip:active{cursor:grabbing}
 .custom-select-btn{background:#0b0f19;border:1px solid #334155;color:#fff;border-radius:8px;padding:6px 10px;text-align:left;font-size:12px;display:flex;justify-content:space-between;align-items:center;width:100%;transition:border-color .2s}
 .custom-select-btn:hover{border-color:#06b6d4}
-.custom-select-list{position:absolute;top:100%;left:0;right:0;background:#131b2e;border:1px solid #334155;border-radius:8px;z-index:1000;max-height:250px;overflow-y:auto;box-shadow:0 8px 30px rgba(0,0,0,.9);display:none;flex-direction:column;animation:fadeIn .15s ease-out}
+.custom-select-list{position:absolute;top:100%;left:0;right:0;background:#131b2e;border:1px solid #334155;border-radius:8px;z-index:1000;max-height:250px;overflow-y:auto;box-shadow:0 8px 30px rgba(0,0,0,.9);display:none;flex-direction:column}
 .custom-select-list.show{display:flex}
 .custom-select-item{padding:10px 12px;font-size:12px;color:#e2e8f0;cursor:pointer;border-bottom:1px solid #1e293b;transition:background .15s}
 .custom-select-item:hover,.custom-select-item:focus{background:#2563eb;color:#fff;outline:0}
@@ -47,34 +44,34 @@ video::-webkit-media-controls{display:none!important}video::-webkit-media-contro
 @keyframes splashScale{0%{transform:scale(.85);opacity:0}100%{transform:scale(1);opacity:1}}
 @keyframes fadeIn{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
 .animate-splash{animation:splashScale .35s ease-out forwards}
-#tvVideoPlayer{transition:opacity .3s ease}
 #splashScreen{transition:opacity .4s ease}
 .modal-active{animation:fadeIn .2s ease-out}
 #refreshToast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(11,15,25,.95);border:1px solid rgba(6,182,212,.5);color:#22d3ee;padding:10px 20px;border-radius:999px;font-size:11px;font-weight:600;z-index:9998;display:none;backdrop-filter:blur(10px);box-shadow:0 4px 20px rgba(0,0,0,.6)}
-#refreshToast.show{display:flex;align-items:center;gap:8px;animation:fadeIn .2s ease-out}
+#refreshToast.show{display:flex;align-items:center;gap:8px}
 #unsyncBadge{display:none;position:fixed;top:8px;right:8px;background:rgba(245,158,11,.95);color:#000;padding:4px 10px;border-radius:999px;font-size:10px;font-weight:800;z-index:9997;animation:pulse 2s ease-in-out infinite;cursor:pointer}
 #unsyncBadge.show{display:block}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
 #browseChannelsModal{position:fixed;inset:0;background:rgba(0,0,0,.95);z-index:250;display:none;flex-direction:column}
 #browseChannelsModal.show{display:flex}
 .tv-focus{outline:3px solid #06b6d4!important;outline-offset:-3px;background:rgba(6,182,212,0.2)!important;transform:scale(0.98);}
+#healthProgressBar{transition:width .3s ease}
 </style>
 </head>
-<body class="bg-black text-slate-100 font-sans h-full overflow-hidden flex flex-col antialiased selection:bg-brand-500 selection:text-white">
+<body class="bg-black text-slate-100 font-sans h-full overflow-hidden flex flex-col antialiased">
 
 <div id="secretAdminZone" title="৫ সেকেন্ড চেপে ধরুন"></div>
 <div id="unsyncBadge" onclick="manualSyncData()">⚠️ আনসিঙ্কড</div>
 <div id="refreshToast"><i class="fa-solid fa-rotate fa-spin"></i><span>লিংক রিফ্রেশ হচ্ছে...</span></div>
 
-<div id="splashScreen" class="fixed inset-0 bg-[#000] z-[9999] flex flex-col items-center justify-center">
+<div id="splashScreen" class="fixed inset-0 bg-black z-[9999] flex flex-col items-center justify-center">
   <div class="w-24 h-24 rounded-2xl bg-gradient-to-tr from-brand-600 to-brand-accent flex items-center justify-center mb-6 shadow-[0_0_50px_rgba(37,99,235,0.6)] animate-splash"><i class="fa-solid fa-tv text-5xl text-white"></i></div>
   <h1 class="text-4xl font-black tracking-widest text-white mb-2 animate-splash" style="animation-delay:.08s">PRO <span class="text-cyan-400">TV</span></h1>
   <p class="text-[10px] tracking-[0.3em] text-slate-500 font-bold uppercase animate-splash" style="animation-delay:.16s">Smart IPTV Player</p>
 </div>
 
 <div id="playerOverlay" class="fixed inset-0 bg-black z-50 flex flex-col">
-  <div id="videoBlocker" style="pointer-events: auto; cursor: pointer;" class="absolute inset-0 z-20 bg-black" onclick="handleTap()"></div>
-  <video id="tvVideoPlayer" style="width:100%; height:100%; object-fit:fill;" class="relative z-0 bg-black" crossorigin="anonymous" playsinline webkit-playsinline muted disablePictureInPicture></video>
+  <div id="videoBlocker" style="pointer-events:auto;cursor:pointer;" class="absolute inset-0 z-20 bg-black" onclick="handleTap()"></div>
+  <video id="tvVideoPlayer" style="width:100%;height:100%;object-fit:fill;" class="relative z-0 bg-black" crossorigin="anonymous" playsinline webkit-playsinline muted disablePictureInPicture></video>
   
   <div id="noSignalScreen" class="hidden absolute inset-0 bg-black z-10 flex-col items-center justify-center pointer-events-none">
     <h1 class="text-3xl font-black tracking-[0.3em] text-slate-500 animate-pulse">NO SIGNAL</h1>
@@ -103,7 +100,7 @@ video::-webkit-media-controls{display:none!important}video::-webkit-media-contro
 <div id="channelListModal" class="fixed inset-0 bg-black/80 z-[60] flex flex-col justify-end hidden opacity-0 transition-opacity duration-300">
   <div class="bg-[#0b0f19] w-full h-[75vh] rounded-t-2xl border-t border-slate-700 flex flex-col transform translate-y-full transition-transform duration-300" id="channelListSheet">
     <div class="p-3 border-b border-slate-800 flex justify-between items-center shrink-0">
-      <h3 class="text-sm font-bold text-white"><i class="fa-solid fa-list text-brand-accent mr-2"></i>সব চ্যানেল <span class="text-[10px] text-slate-400 ml-2 hidden md:inline">(রিমোটে ↑↓←→ দিয়ে নেভিগেট)</span></h3>
+      <h3 class="text-sm font-bold text-white"><i class="fa-solid fa-list text-brand-accent mr-2"></i>সব চ্যানেল <span class="text-[10px] text-slate-400 ml-2 hidden md:inline">(OK চেপে ধরুন ২ সেকেন্ড)</span></h3>
       <button onclick="toggleChannelList()" class="text-slate-400 hover:text-white p-1"><i class="fa-solid fa-xmark text-lg"></i></button>
     </div>
     <div class="p-3 shrink-0"><input type="text" id="listSearch" placeholder="চ্যানেল খুঁজুন..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-accent transition-colors"></div>
@@ -150,6 +147,11 @@ video::-webkit-media-controls{display:none!important}video::-webkit-media-contro
         <h4 class="text-xs sm:text-sm font-extrabold text-white">অনলাইন ইউজার</h4>
         <p class="text-[10px] sm:text-[11px] text-slate-400 mt-1">এই মুহূর্তে কতজন চালু আছে</p>
       </button>
+      <button onclick="openHealthChecker()" class="p-3 sm:p-5 rounded-2xl bg-gradient-to-br from-teal-500/20 to-green-500/10 border border-teal-500/40 hover:border-teal-400 text-left transition group col-span-2">
+        <i class="fa-solid fa-heart-pulse text-xl sm:text-2xl text-teal-400 mb-1 sm:mb-2 group-hover:scale-110 transition"></i>
+        <h4 class="text-xs sm:text-sm font-extrabold text-white">চ্যানেল হেলথ চেকার</h4>
+        <p class="text-[10px] sm:text-[11px] text-slate-400 mt-1">স্মার্টলি LIVE / DEAD চ্যানেল ডিটেক্ট করুন</p>
+      </button>
       <button onclick="manualSyncData()" class="p-3 sm:p-5 rounded-2xl bg-gradient-to-br from-amber-500/20 to-orange-500/10 border border-amber-500/40 hover:border-amber-400 text-left transition group col-span-2">
         <i class="fa-solid fa-cloud-arrow-up text-xl sm:text-2xl text-amber-400 mb-1 sm:mb-2 group-hover:scale-110 transition"></i>
         <h4 class="text-xs sm:text-sm font-extrabold text-white">গ্লোবাল সিঙ্ক (ফোর্স আপলোড)</h4>
@@ -161,6 +163,29 @@ video::-webkit-media-controls{display:none!important}video::-webkit-media-contro
         <p class="text-[10px] sm:text-[11px] text-slate-400 mt-1">Firebase-এ থাকা পুরনো ডাটা ফিরিয়ে আনুন</p>
       </button>
     </div>
+  </div>
+</div>
+
+<!-- Health Checker Modal -->
+<div id="healthCheckerModal" class="fixed inset-0 bg-tvbg-950 z-[210] flex-col hidden">
+  <div class="h-16 glass-header flex items-center justify-between px-3 sm:px-6 shrink-0">
+    <div class="flex items-center gap-2">
+      <button onclick="closeHealthChecker()" class="text-slate-300 hover:text-white p-2 rounded-lg hover:bg-slate-800"><i class="fa-solid fa-arrow-left"></i></button>
+      <h2 class="text-xs sm:text-base font-extrabold text-white"><i class="fa-solid fa-heart-pulse text-teal-400 mr-2"></i>চ্যানেল হেলথ চেকার</h2>
+    </div>
+    <button onclick="startHealthCheck()" id="healthStartBtn" class="px-3 py-1.5 bg-teal-600 hover:bg-teal-500 text-white rounded-lg text-[11px] sm:text-xs font-bold transition-colors"><i class="fa-solid fa-play mr-1"></i> চেক শুরু</button>
+  </div>
+  <div class="p-3 border-b border-slate-800 bg-tvbg-900/60 shrink-0 space-y-2">
+    <div class="flex items-center justify-between text-[11px] text-slate-300">
+      <span id="healthStatus">শুরু করুন বাটনে ক্লিক করুন</span>
+      <span id="healthStats" class="text-slate-500"></span>
+    </div>
+    <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+      <div id="healthProgressBar" class="h-full bg-gradient-to-r from-teal-500 to-emerald-400" style="width:0%"></div>
+    </div>
+  </div>
+  <div class="p-3 overflow-y-auto flex-1" style="touch-action:pan-y">
+    <div class="max-w-3xl mx-auto space-y-1.5" id="healthResults"></div>
   </div>
 </div>
 
@@ -192,7 +217,7 @@ video::-webkit-media-controls{display:none!important}video::-webkit-media-contro
   </div>
 </div>
 
-<div id="browseChannelsModal" class="flex-col">
+<div id="browseChannelsModal">
   <div class="h-16 glass-header flex items-center justify-between px-3 sm:px-6 shrink-0 gap-2">
     <div class="flex items-center gap-2">
       <button onclick="closeBrowseModal()" class="text-slate-300 hover:text-white p-2 rounded-lg hover:bg-slate-800"><i class="fa-solid fa-arrow-left"></i></button>
@@ -218,7 +243,7 @@ video::-webkit-media-controls{display:none!important}video::-webkit-media-contro
       <input type="text" id="pmSearch" oninput="renderPMList()" placeholder="চ্যানেল সার্চ করুন..." class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-brand-accent transition-colors">
     </div>
     <div class="flex items-center gap-1.5 shrink-0">
-      <button onclick="restoreMissingChannels()" class="px-2 sm:px-3 py-1.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 rounded-lg text-[10px] sm:text-xs font-bold flex items-center gap-1 transition-colors" title="সোর্স থেকে ডিলিট হওয়া চ্যানেল ফিরিয়ে আনুন"><i class="fa-solid fa-rotate-left"></i><span class="hidden sm:inline">Restore</span></button>
+      <button onclick="restoreMissingChannels()" class="px-2 sm:px-3 py-1.5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 rounded-lg text-[10px] sm:text-xs font-bold flex items-center gap-1 transition-colors"><i class="fa-solid fa-rotate-left"></i><span class="hidden sm:inline">Restore</span></button>
       <button onclick="fixAllBrokenChannels()" class="px-2 sm:px-3 py-1.5 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded-lg text-[10px] sm:text-xs font-bold flex items-center gap-1 transition-colors"><i class="fa-solid fa-bolt"></i><span class="hidden sm:inline">সব ফিক্স</span></button>
     </div>
   </div>
@@ -229,9 +254,8 @@ video::-webkit-media-controls{display:none!important}video::-webkit-media-contro
   </div>
   <div id="pmScrollWrap" class="p-3 sm:p-5 overflow-y-auto flex-1" style="touch-action:pan-y">
     <div class="max-w-5xl mx-auto space-y-2" id="pmChannelList"></div>
-    <div id="pmEmpty" class="hidden text-center text-slate-500 py-20 text-sm">কোনো চ্যানেল নেই</div>
   </div>
-  <div class="p-3 border-t border-slate-800 bg-tvbg-900 text-center text-[10px] sm:text-[11px] text-slate-500 shrink-0">💡 হ্যান্ডেল আইকন (⠿) ধরে <b class="text-amber-400">Drag</b> করে চ্যানেল উপরে-নিচে সরান (সার্চ খালি থাকা অবস্থায়)</div>
+  <div class="p-3 border-t border-slate-800 bg-tvbg-900 text-center text-[10px] sm:text-[11px] text-slate-500 shrink-0">💡 সার্চ খালি থাকলে হ্যান্ডেল (⠿) ধরে Drag করে রি-অর্ডার করুন</div>
 </div>
 
 <div id="sourceManagerModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[200] flex items-center justify-center p-4 hidden">
@@ -313,11 +337,11 @@ document.addEventListener('contextmenu',function(e){e.preventDefault();return fa
 document.addEventListener('keydown',function(e){var k=(e.key||'').toUpperCase();if(e.key==='F12'||(e.ctrlKey&&e.shiftKey&&['I','J','C','K'].indexOf(k)!==-1)||(e.ctrlKey&&['U','S','P'].indexOf(k)!==-1)||(e.metaKey&&e.altKey&&['I','J','C'].indexOf(k)!==-1)){e.preventDefault();e.stopPropagation();return false}},true);
 document.addEventListener('dragstart',function(e){var tag=e.target&&e.target.tagName;if(tag==='IMG'||tag==='VIDEO'||tag==='A')e.preventDefault()});
 
-function encryptPayload(obj){try{var str=JSON.stringify(obj);return 'PTV2:'+btoa(unescape(encodeURIComponent(str)));}catch(e){return null}}
-function decryptPayload(encoded){try{if(!encoded||encoded.indexOf('PTV2:')!==0)return null;var str=decodeURIComponent(escape(atob(encoded.substring(5))));return JSON.parse(str);}catch(e){return null}}
+function encryptPayload(obj){try{return 'PTV2:'+btoa(unescape(encodeURIComponent(JSON.stringify(obj))));}catch(e){return null}}
+function decryptPayload(encoded){try{if(!encoded||encoded.indexOf('PTV2:')!==0)return null;return JSON.parse(decodeURIComponent(escape(atob(encoded.substring(5)))));}catch(e){return null}}
 
 /* ==================== CONFIG ==================== */
-var _pinCodes = [72,111,110,111,114,120,54,103,35]; // Honorx6g#
+var _pinCodes = [72,111,110,111,114,120,54,103,35];
 const ADMIN_PIN = String.fromCharCode.apply(null,_pinCodes);
 const SHORT_URL = "https://da.gd/gbhY7";
 const FIREBASE_DB_URL = "https://pro-tv-3cd93-default-rtdb.firebaseio.com/";
@@ -331,18 +355,20 @@ const SOURCES_KEY = 'protv_sources_v1';
 const LAST_SOURCE_KEY = 'protv_last_source_v1';
 const SRC_CH_PREFIX = 'protv_src_ch_';
 const URL_REFRESH_INTERVAL = 12 * 60 * 1000;
-const MAX_HEAL_ATTEMPTS = 1;
+const MAX_HEAL_ATTEMPTS = 2;
 const DTH_DISPLAY_MS = 2000;
 const CONTROLS_AUTO_HIDE_MS = 5000;
 const USER_STALE_MS = 24 * 60 * 60 * 1000;
+const NOSIGNAL_TIMEOUT_MS = 8000;   // increased from 4000
+const OK_HOLD_MS = 2000;            // reduced from 5000
 
 const state = {
-  channels:[], currentIndex:-1, isAdmin:false, hls:null, selectedChannelId:null, currentAttemptProxyIdx:0,
+  channels:[], currentIndex:-1, isAdmin:false, hls:null, currentAttemptProxyIdx:0,
   ctxIndex:-1, switching:false, sources:[], activeSourceId:null, pmSelectedSource:'auto',
   volume:0.7, currentSourceType:'m3u', selectedWizSourceId:'', lastSyncTime:0, lastUrlRefresh:0,
   refreshingUrls:false, healingInProgress:false, channelHealAttempts:{}, usingNativePlayer:false, fetchingPlaylist:false,
   isZapping:false, browseSourceId:null, browseChannels:[], lastRemovedChannel:null, playSessionId:0,
-  listFocusIndex:0, lastSwitchTime:0
+  listFocusIndex:0, lastSwitchTime:0, healthChecking:false
 };
 
 const video=document.getElementById('tvVideoPlayer');
@@ -380,10 +406,7 @@ function showAlert(msg, title) {
   document.getElementById('customAlertModal').classList.remove('hidden');
 }
 function setUnsynced(v) {
-  if (unsyncBadge) {
-    if (v) unsyncBadge.classList.add('show');
-    else unsyncBadge.classList.remove('show');
-  }
+  if (unsyncBadge) { if (v) unsyncBadge.classList.add('show'); else unsyncBadge.classList.remove('show'); }
 }
 
 /* ==================== HEARTBEAT ==================== */
@@ -415,10 +438,7 @@ function checkOnlineUsers() {
 /* ==================== AUDIO ==================== */
 let audioCtx=null,audioSource=null,audioCompressor=null,audioInitialized=false;
 function setupAudioNormalization(){
-  if(audioInitialized){
-    if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();
-    return;
-  }
+  if(audioInitialized){ if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume(); return; }
   document.addEventListener('click',initAudioContext,{once:true});
   document.addEventListener('touchstart',initAudioContext,{once:true});
 }
@@ -429,13 +449,9 @@ function initAudioContext(){
     audioCtx=new AC();
     audioSource=audioCtx.createMediaElementSource(video);
     audioCompressor=audioCtx.createDynamicsCompressor();
-    audioCompressor.threshold.value = -30; 
-    audioCompressor.knee.value = 40;
-    audioCompressor.ratio.value = 20;
-    audioCompressor.attack.value = 0.005;
-    audioCompressor.release.value = 0.25;
-    audioSource.connect(audioCompressor);
-    audioCompressor.connect(audioCtx.destination);
+    audioCompressor.threshold.value=-30; audioCompressor.knee.value=40;
+    audioCompressor.ratio.value=20; audioCompressor.attack.value=0.005; audioCompressor.release.value=0.25;
+    audioSource.connect(audioCompressor); audioCompressor.connect(audioCtx.destination);
     audioInitialized=true;
   }catch(e){}
 }
@@ -448,7 +464,7 @@ secretZone.addEventListener('mousedown',startAdminPress);
 secretZone.addEventListener('touchstart',startAdminPress,{passive:true});
 ['mouseup','mouseleave','touchend','touchcancel'].forEach(ev=>secretZone.addEventListener(ev,cancelAdminPress));
 
-/* ==================== PARSER / MATCHER ==================== */
+/* ==================== PARSER ==================== */
 function parseM3U(text){
   var lines=text.split(/\r?\n/),list=[],pending=null,idx=0;
   for(var r=0;r<lines.length;r++){
@@ -468,9 +484,7 @@ function findBestMatch(parsedList,searchName){
   var sLower=searchName.toLowerCase().trim(),sNorm=normalizeName(searchName); if(!sLower)return null;
   var match=parsedList.find(p=>p.name.toLowerCase().trim()===sLower); if(match)return match;
   match=parsedList.find(p=>normalizeName(p.name)===sNorm); if(match)return match;
-  try{var escaped=sLower.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');var wordRegex=new RegExp('(^|[^a-z0-9])'+escaped+'([^a-z0-9]|$)','i');var candidates=parsedList.filter(p=>wordRegex.test(p.name));if(candidates.length>0){candidates.sort((a,b)=>a.name.length-b.name.length);return candidates[0]}}catch(e){}
-  var searchWords=sLower.split(/\s+/).filter(w=>w.length>=2);
-  if(searchWords.length>=2){var c2=parsedList.filter(p=>{var pL=p.name.toLowerCase();return searchWords.every(w=>pL.indexOf(w)!==-1)});if(c2.length>0){c2.sort((a,b)=>a.name.length-b.name.length);return c2[0]}}
+  try{var escaped=sLower.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');var re=new RegExp('(^|[^a-z0-9])'+escaped+'([^a-z0-9]|$)','i');var c=parsedList.filter(p=>re.test(p.name));if(c.length>0){c.sort((a,b)=>a.name.length-b.name.length);return c[0]}}catch(e){}
   return null;
 }
 
@@ -497,13 +511,13 @@ async function fetchXtreamChannels(src){
   var base=src.server.replace(/\/$/,'');
   var apiUrl=base+'/player_api.php?username='+encodeURIComponent(src.user)+'&password='+encodeURIComponent(src.pass)+'&action=get_live_streams';
   var res=null;
-  try{ res=await fetch(apiUrl); }catch(e){ res=null; }
-  if(!res || !res.ok){
+  try{ res=await fetch(apiUrl); }catch(e){}
+  if(!res||!res.ok){
     for(var i=0;i<FAST_PROXIES.length;i++){
       try{ var r2=await fetch(FAST_PROXIES[i]+encodeURIComponent(apiUrl)); if(r2&&r2.ok){res=r2;break} }catch(e2){}
     }
   }
-  if(!res || !res.ok) return [];
+  if(!res||!res.ok) return [];
   try{
     var data=await res.json();
     return data.map(ch=>({id:ch.stream_id.toString(),name:ch.name,logo:ch.stream_icon||'',category:ch.category_name?ch.category_name.toUpperCase():'LIVE',url:base+'/live/'+encodeURIComponent(src.user)+'/'+encodeURIComponent(src.pass)+'/'+ch.stream_id+'.m3u8'}))
@@ -512,10 +526,8 @@ async function fetchXtreamChannels(src){
 async function fetchChannelsFromSource(source,forceRefresh,isBackground){
   if(!source)return[];
   if(!forceRefresh && source.channels && source.channels.length>0) return source.channels;
-
-  var timeoutMs = isBackground ? 4000 : 8000;
+  var timeoutMs = isBackground ? 5000 : 8000;
   var parsed=[];
-  
   try {
     if(source.type==='xtream') parsed=await fetchXtreamChannels(source);
     else if(source.url){
@@ -529,34 +541,16 @@ async function fetchChannelsFromSource(source,forceRefresh,isBackground){
            }
         }
       }
-      if(text && text.indexOf('#EXTINF')!==-1){
-        parsed=parseM3U(text);
-      }
+      if(text && text.indexOf('#EXTINF')!==-1) parsed=parseM3U(text);
     }
-  } catch(e) {
-    console.warn('Fetch failed:', e);
-  }
-
+  } catch(e) { console.warn('Fetch failed:', e); }
   if(parsed.length===0 && source.channels && source.channels.length>0) return source.channels;
   if(parsed.length>0){source._freshCache=parsed;source._lastFetch=Date.now()}
   return parsed;
 }
 
-/* ==================== URL CLEANUP / MERGE ==================== */
+/* ==================== URL CLEANUP ==================== */
 function cleanUrl(url){if(!url)return url;return url.replace(/[?&]_fresh=\d+/g,'').replace(/\?$/,'')}
-function sanitizeAllUrls(){
-  var source=getActiveSource(); if(!source||!source.channels||!source.channels.length)return;
-  var corrupted=0;
-  state.channels.forEach(ch=>{
-    if(ch.url&&ch.url.indexOf('_fresh=')!==-1){
-      var orig=source.channels.find(p=>normalizeName(p.name)===normalizeName(ch.name));
-      if(orig&&orig.url&&orig.url.indexOf('_fresh=')===-1)ch.url=orig.url;
-      else ch.url=cleanUrl(ch.url);
-      ch.baseUrl=ch.url.split('?')[0]; corrupted++;
-    }
-  });
-  if(corrupted>0)saveChannels();
-}
 function mergeChannelUrls(current,parsed){
   if(!current||current.length===0)return parsed;
   current.forEach(ch=>{
@@ -564,49 +558,6 @@ function mergeChannelUrls(current,parsed){
     if(m&&m.url){ch.url=m.url;ch.baseUrl=m.url.split('?')[0];if(!ch.logo&&m.logo)ch.logo=m.logo}
   });
   return current;
-}
-
-/* ==================== RESTORE MISSING CHANNELS ==================== */
-async function restoreMissingChannels() {
-  var source = getActiveSource();
-  if (!source) return;
-  showAlert("🔄 সোর্স থেকে ডিলিট হওয়া চ্যানেল খোঁজা হচ্ছে...", "Restore");
-  
-  try {
-    var parsed = await fetchChannelsFromSource(source, true, false);
-    if (!parsed || parsed.length === 0) {
-      showAlert("❌ সোর্স থেকে চ্যানেল লোড করা যায়নি। ইন্টারনেট চেক করুন।");
-      return;
-    }
-    
-    var existingNames = new Set(state.channels.map(c => normalizeName(c.name)));
-    var missingCount = 0;
-    
-    parsed.forEach(pCh => {
-      if (!existingNames.has(normalizeName(pCh.name))) {
-        state.channels.push({
-          id: pCh.id || ('ch_' + Date.now() + '_' + Math.random()),
-          name: pCh.name,
-          url: pCh.url,
-          category: pCh.category || 'RESTORED',
-          logo: pCh.logo || '',
-          baseUrl: pCh.url.split('?')[0]
-        });
-        missingCount++;
-      }
-    });
-    
-    if (missingCount > 0) {
-      syncAfterMutation();
-      renderPMList();
-      renderList();
-      showAlert("✅ " + missingCount + " টি ডিলিট হওয়া চ্যানেল ফিরিয়ে আনা হয়েছে!", "Restored");
-    } else {
-      showAlert("ℹ️ সব চ্যানেল আগে থেকেই আপনার লিস্টে আছে। কোনো চ্যানেল মিসিং নেই।", "All Good");
-    }
-  } catch(e) {
-    showAlert("❌ রিস্টোর করতে সমস্যা হচ্ছে: " + e.message);
-  }
 }
 
 /* ==================== REFRESH ALL URLS ==================== */
@@ -629,53 +580,52 @@ async function refreshAllUrls(silent){
 }
 
 /* ==================== AUTO HEAL ==================== */
-async function attemptAutoHeal(ch, targetIndex, sessionId) {
+async function attemptAutoHeal(ch, targetIndex, sessionId){
   if (state.healingInProgress) return false;
   if (state.currentIndex !== targetIndex) return false;
   if (state.playSessionId !== sessionId) return false;
-  
   state.healingInProgress = true;
   
+  var isToffee = ch.url && ch.url.indexOf('edge-cache-token') !== -1;
+  
   try {
-    for (let src of state.sources) {
-      if (src.channels && src.channels.length > 0) {
-        let match = src.channels.find(p => normalizeName(p.name) === normalizeName(ch.name));
-        if (match && match.url && match.url !== ch.url) {
-          ch.url = match.url;
-          ch.baseUrl = match.url.split('?')[0];
-          saveChannelsDebounced();
-          state.healingInProgress = false;
-          loadStreamSource(ch.url, true, sessionId);
-          return true;
+    // For non-Toffee: try cached URLs first (fast)
+    if (!isToffee) {
+      for (let src of state.sources) {
+        if (src.channels && src.channels.length > 0) {
+          let match = src.channels.find(p => normalizeName(p.name) === normalizeName(ch.name));
+          if (match && match.url && match.url !== ch.url) {
+            ch.url = match.url; ch.baseUrl = match.url.split('?')[0];
+            saveChannelsDebounced();
+            state.healingInProgress = false;
+            loadStreamSource(ch.url, true, sessionId);
+            return true;
+          }
         }
       }
     }
 
+    // Always refresh from source (especially for Toffee tokens)
     let sourcesToCheck = [...state.sources];
     const activeSrc = getActiveSource();
     if (activeSrc) sourcesToCheck = sourcesToCheck.sort((a, b) => a.id === activeSrc.id ? -1 : 1);
 
     for (let src of sourcesToCheck) {
       if (state.playSessionId !== sessionId) return false;
-      
       try {
-        let parsed = await fetchChannelsFromSource(src, true, true);
+        // Toffee: longer timeout (non-background), non-Toffee: faster
+        let parsed = await fetchChannelsFromSource(src, true, !isToffee ? true : false);
         if (state.playSessionId !== sessionId) return false;
-        
         let match = parsed.find(p => normalizeName(p.name) === normalizeName(ch.name));
         if (match && match.url) {
-          ch.url = match.url;
-          ch.baseUrl = match.url.split('?')[0];
-          
+          // If Toffee and new URL is identical to old, still update (may still work)
+          ch.url = match.url; ch.baseUrl = match.url.split('?')[0];
           if (!src.channels) src.channels = [];
           let ex = src.channels.find(c => normalizeName(c.name) === normalizeName(ch.name));
           if (ex) { ex.url = match.url; ex.baseUrl = match.url.split('?')[0]; }
           else { src.channels.push(match); }
-          
           saveChannelsDebounced(); saveSources();
-          state.currentAttemptProxyIdx = 0; 
-          state.usingNativePlayer = false;
-          
+          state.currentAttemptProxyIdx = 0; state.usingNativePlayer = false;
           state.healingInProgress = false;
           loadStreamSource(ch.url, true, sessionId);
           return true;
@@ -694,35 +644,13 @@ setInterval(()=>refreshAllUrls(true),URL_REFRESH_INTERVAL);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshAllUrls(true)});
 window.addEventListener('focus',()=>refreshAllUrls(true));
 
-/* ==================== SMART TOKEN REFRESH ==================== */
-function getTokenExpiry(url) {
-  try { let m = url.match(/Expires=(\d+)/); if (m) return parseInt(m[1]); } catch(e) {}
-  return 0;
-}
-function buildFreshStreamUrl(ch){
-  try{
-    var u=new URL(ch.url);
-    if(u.searchParams.has('edge-cache-token')){
-      var now=Math.floor(Date.now()/1000);
-      var tokenMatch=u.searchParams.get('edge-cache-token')||'';
-      var prefMatch=tokenMatch.match(/URLPrefix=([^~]*)/);
-      var pref=prefMatch?prefMatch[1]:'';
-      u.searchParams.set('edge-cache-token','Expires='+(now+3600)+'~Starts='+now+'~URLPrefix='+pref+'~Signature=FIXED');
-      return u.toString();
-    }
-    return null;
-  }catch(e){return null}
-}
-
 /* ==================== CLOUD SYNC ==================== */
 async function cloudPullMaster(){
   try{var res=await fetch(FIREBASE_DB_URL+MASTER_SYNC_ID+'.json');if(!res.ok)return null;return await res.json()}catch(e){return null}
 }
-
 async function cloudPushMaster(){
   var activeSrc=state.sources.find(s=>s.id===state.activeSourceId);
   if(activeSrc&&state.channels.length>0)activeSrc.channels=JSON.parse(JSON.stringify(state.channels));
-  
   var cleanSources = state.sources.map(s => {
     var copy = { id: s.id, type: s.type, name: s.name };
     if(s.url) copy.url = s.url;
@@ -730,22 +658,17 @@ async function cloudPushMaster(){
     if(s.user) copy.user = s.user;
     if(s.pass) copy.pass = s.pass;
     if(s.channels && s.channels.length > 0) {
-      copy.channels = s.channels.map(c => ({
-        id: c.id, name: c.name, url: c.url, category: c.category, logo: c.logo
-      }));
+      copy.channels = s.channels.map(c => ({ id: c.id, name: c.name, url: c.url, category: c.category, logo: c.logo }));
     }
     return copy;
   });
-
   var payload={updatedAt:Date.now(),channels:state.channels,sources:cleanSources};
-  
   try{
     var res=await fetch(FIREBASE_DB_URL+MASTER_SYNC_ID+'.json',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
     if(res.ok)state.lastSyncTime=payload.updatedAt;
     return res.ok;
   }catch(e){return false}
 }
-
 function startInstantSyncListener(){
   try{
     if(window._sseSource){ window._sseSource.close(); }
@@ -757,33 +680,25 @@ function startInstantSyncListener(){
         var payload = JSON.parse(e.data);
         if(payload && payload.path === '/' && payload.data) {
           var remote = payload.data;
-          var remoteTime = remote.updatedAt || 0;
-          var localTime = state.lastSyncTime || 0;
-          if(remoteTime > localTime) applyRemoteUpdate(remote);
+          if((remote.updatedAt || 0) > (state.lastSyncTime || 0)) applyRemoteUpdate(remote);
         }
       } catch(err) {}
     });
   }catch(e){}
 }
-
 function applyRemoteUpdate(remote) {
   if(!remote || !remote.sources) return;
   var oldName = state.channels[state.currentIndex] ? state.channels[state.currentIndex].name : null;
-  
   state.sources = remote.sources;
   var active = state.sources.find(s => s.id === state.activeSourceId) || state.sources[0];
   state.activeSourceId = active.id;
   state.channels = active.channels ? JSON.parse(JSON.stringify(active.channels)) : [];
-  
   if (state.channels.length === 0) {
     var fb = resolveActiveChannels(remote);
     if (fb) state.channels = fb;
   }
-  
   state.lastSyncTime = remote.updatedAt || 0;
-  saveChannels(); saveSources();
-  renderList();
-  
+  saveChannels(); saveSources(); renderList();
   if(oldName) {
     var newIdx = state.channels.findIndex(c => c.name === oldName);
     if(newIdx >= 0) state.currentIndex = newIdx;
@@ -793,88 +708,65 @@ function applyRemoteUpdate(remote) {
   }
   showAlert("✅ নতুন আপডেট এসেছে! চ্যানেল লিস্ট আপডেট করা হয়েছে।", "Auto Sync");
 }
-
 async function syncAfterMutation(){
   var activeSrc=state.sources.find(s=>s.id===state.activeSourceId);
   if(activeSrc)activeSrc.channels=JSON.parse(JSON.stringify(state.channels));
   saveChannelsDebounced();saveSources();renderList();
 }
-
 function resolveActiveChannels(remote){
   var active=state.sources.find(s=>s.id===state.activeSourceId);
   if(active&&active.channels&&active.channels.length>0)return JSON.parse(JSON.stringify(active.channels));
-  if(state.sources.length>0){
-    for(var i=0;i<state.sources.length;i++){
-      if(state.sources[i].channels&&state.sources[i].channels.length>0){
-        state.activeSourceId=state.sources[i].id;
-        localStorage.setItem(LAST_SOURCE_KEY,state.sources[i].id);
-        return JSON.parse(JSON.stringify(state.sources[i].channels));
-      }
+  for(var i=0;i<state.sources.length;i++){
+    if(state.sources[i].channels&&state.sources[i].channels.length>0){
+      state.activeSourceId=state.sources[i].id;
+      localStorage.setItem(LAST_SOURCE_KEY,state.sources[i].id);
+      return JSON.parse(JSON.stringify(state.sources[i].channels));
     }
   }
   if(remote&&remote.channels&&remote.channels.length>0)return JSON.parse(JSON.stringify(remote.channels));
   return null;
 }
-
 async function pullMasterOnBoot(){
   var cached=loadCachedChannels();
   var localHasData=cached&&cached.channels&&cached.channels.length>0;
-  
   try{
     var remote=await Promise.race([cloudPullMaster(),new Promise(r=>setTimeout(()=>r(null),2000))]);
     if(remote&&remote.sources&&remote.sources.length>0){
       var remoteTime = remote.updatedAt || 0;
       var cacheTime = (cached && cached.time) || 0;
-      
       if (remoteTime >= cacheTime || !localHasData) {
         state.sources = remote.sources;
         var ch = resolveActiveChannels(remote);
         if(ch) state.channels = ch;
         state.lastSyncTime = remoteTime;
-        saveChannels(); saveSources();
-        renderList();
-        return true;
+        saveChannels(); saveSources(); renderList(); return true;
       }
     }
   }catch(e){}
-  
-  if(localHasData){
-    state.channels=cached.channels;
-    state.lastSyncTime=cached.time||0;
-    renderList();
-    return true;
-  }
+  if(localHasData){ state.channels=cached.channels; state.lastSyncTime=cached.time||0; renderList(); return true; }
   return false;
 }
-
 function manualSyncData(){
-  showConfirm("গ্লোবাল সিঙ্ক","আপনার বর্তমান চ্যানেল লিস্ট সব ইউজারের জন্য পাঠাবেন?\n\n⚡ ইনস্ট্যান্ট আপডেট চলে যাবে।",function(){
+  showConfirm("গ্লোবাল সিঙ্ক","আপনার বর্তমান চ্যানেল লিস্ট সব ইউজারের জন্য পাঠাবেন?",function(){
     cloudPushMaster().then(ok=>{
-      if(ok){setUnsynced(false);showAlert("✅ আপডেট পাঠানো হয়েছে! সব ডিভাইসে সাথে সাথে চলে যাবে।")}
+      if(ok){setUnsynced(false);showAlert("✅ আপডেট পাঠানো হয়েছে!")}
       else showAlert("❌ আপলোড ব্যর্থ! Firebase Rules চেক করুন।")
     });
   });
 }
-
 async function restoreFromCloud(){
-  showConfirm("ক্লাউড থেকে রিস্টোর",
-    "Firebase-এ থাকা পুরনো ডাটা আবার ফিরিয়ে আনা হবে।\n\n⚠️ আপনার বর্তমান লোকাল ডাটা মুছে যাবে!\n\nআপনি নিশ্চিত?",async function(){
-      try{
-        var remote=await cloudPullMaster();
-        if(!remote||!remote.sources||remote.sources.length===0){
-          showAlert("❌ ক্লাউডে কোনো ডাটা নেই।","Restore Failed");return;
-        }
-        var srcCount=remote.sources.length;
-        var chCount=(remote.channels||[]).length;
-        state.sources=remote.sources;
-        state.activeSourceId=remote.sources[0].id;
-        state.channels=remote.channels||resolveActiveChannels(remote)||[];
-        state.lastSyncTime=remote.updatedAt||0;
-        saveChannels();saveSources();
-        renderList();
-        showAlert("✅ রিস্টোর সফল!\n\n📺 প্লেলিস্ট: "+srcCount+"\n📡 চ্যানেল: "+chCount,"Restore Complete");
-      }catch(e){showAlert("❌ রিস্টোর ব্যর্থ: "+e.message)}
-    });
+  showConfirm("ক্লাউড থেকে রিস্টোর","Firebase-এ থাকা পুরনো ডাটা ফিরিয়ে আনা হবে।\n\n⚠️ বর্তমান লোকাল ডাটা মুছে যাবে!",async function(){
+    try{
+      var remote=await cloudPullMaster();
+      if(!remote||!remote.sources||!remote.sources.length){showAlert("❌ ক্লাউডে কোনো ডাটা নেই।","Failed");return}
+      state.sources=remote.sources;
+      state.activeSourceId=remote.sources[0].id;
+      state.channels=remote.channels||resolveActiveChannels(remote)||[];
+      state.lastSyncTime=remote.updatedAt||0;
+      saveChannels();saveSources();renderList();
+      showAlert("✅ রিস্টোর সফল!\n📡 চ্যানেল: "+state.channels.length,"Complete");
+    }catch(e){showAlert("❌ রিস্টোর ব্যর্থ: "+e.message)}
+  });
 }
 
 /* ==================== STORAGE ==================== */
@@ -883,11 +775,9 @@ function saveChannelsDebounced() {
   if (_saveChannelsTimer) clearTimeout(_saveChannelsTimer);
   _saveChannelsTimer = setTimeout(() => { saveChannels(); }, 2000);
 }
-
 function loadCachedChannels(){
   try{
-    var raw=localStorage.getItem(STORAGE_KEY);
-    if(!raw)return null;
+    var raw=localStorage.getItem(STORAGE_KEY); if(!raw)return null;
     var dec=decryptPayload(raw);
     if(dec&&dec.channels&&Array.isArray(dec.channels))return{time:dec.time||0,channels:dec.channels};
   }catch(e){}
@@ -895,10 +785,8 @@ function loadCachedChannels(){
 }
 function saveChannels(){
   try{
-    var payload={time:Date.now(),channels:state.channels};
-    var enc=encryptPayload(payload);
-    if(!enc)return;
-    if(enc.length>4*1024*1024)return; 
+    var enc=encryptPayload({time:Date.now(),channels:state.channels});
+    if(!enc||enc.length>4*1024*1024)return;
     localStorage.setItem(STORAGE_KEY,enc);
   }catch(e){}
 }
@@ -906,13 +794,9 @@ function loadSources(){
   state.sources=[];
   try{
     var raw=localStorage.getItem(SOURCES_KEY);
-    if(raw){
-      var dec=decryptPayload(raw);
-      if(Array.isArray(dec))state.sources=dec;
-    }
+    if(raw){ var dec=decryptPayload(raw); if(Array.isArray(dec))state.sources=dec; }
   }catch(e){state.sources=[]}
-  if(!state.sources)state.sources=[];
-  if(!state.sources.length){
+  if(!state.sources||!state.sources.length){
     state.sources=[{id:'default',type:'m3u',name:'Default (Toffee)',url:SHORT_URL,channels:[]}];
   }
   state.activeSourceId=localStorage.getItem(LAST_SOURCE_KEY)||state.sources[0].id;
@@ -922,10 +806,7 @@ function loadSources(){
     var key=SRC_CH_PREFIX+s.id;
     try{
       var raw=localStorage.getItem(key);
-      if(raw){
-        var dec=decryptPayload(raw);
-        if(Array.isArray(dec)&&dec.length>0)s.channels=dec;
-      }
+      if(raw){ var dec=decryptPayload(raw); if(Array.isArray(dec)&&dec.length>0)s.channels=dec; }
     }catch(e){}
   });
 }
@@ -941,7 +822,6 @@ function saveSources(){
     });
     var enc=encryptPayload(mainData);
     if(enc)localStorage.setItem(SOURCES_KEY,enc);
-    
     state.sources.forEach(function(s){
       var key=SRC_CH_PREFIX+s.id;
       if(s.channels&&s.channels.length>0){
@@ -982,7 +862,7 @@ function addSource(){
   saveSources();renderSourceList();updateDropdowns();
   document.getElementById('srcName').value='';document.getElementById('srcUrl').value='';
   if(state.isAdmin)setUnsynced(true);
-  showAlert('✅ M3U সোর্স যোগ হয়েছে।\n\n💡 এখন "গ্লোবাল সিঙ্ক" দিন।');
+  showAlert('✅ M3U সোর্স যোগ হয়েছে।');
 }
 function addXtreamSource(){
   var name=document.getElementById('xtName').value.trim(),server=document.getElementById('xtServer').value.trim(),user=document.getElementById('xtUser').value.trim(),pass=document.getElementById('xtPass').value.trim();
@@ -1009,22 +889,21 @@ function renderSourceList(){
     row.className='flex items-center gap-2 p-2.5 rounded-lg bg-slate-950 border border-slate-800';
     var typeLabel=s.type==='xtream'?'<span class="text-[9px] bg-purple-600/30 text-purple-300 px-1.5 py-0.5 rounded">XTREAM</span>':'<span class="text-[9px] bg-emerald-600/30 text-emerald-300 px-1.5 py-0.5 rounded">M3U</span>';
     var urlLabel=s.type==='xtream'?(s.server||'')+' ('+(s.user||'')+')':(s.url||'');
-    row.innerHTML='<div class="flex-1 min-w-0"><div class="text-xs font-bold text-white truncate flex items-center gap-1.5">'+esc(s.name)+' '+typeLabel+'</div><div class="text-[10px] text-slate-500 truncate font-mono mt-0.5">'+esc(urlLabel)+'</div></div><div class="flex gap-1"><button class="px-2 py-1 bg-cyan-600/20 hover:bg-cyan-600 text-cyan-300 hover:text-white rounded text-[10px] font-bold transition-colors" data-browse="'+esc(s.id)+'">+ Browse</button><button class="px-2 py-1 bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white rounded text-[10px] font-bold transition-colors" data-del="'+esc(s.id)+'"><i class="fa-solid fa-trash"></i></button></div>';
+    row.innerHTML='<div class="flex-1 min-w-0"><div class="text-xs font-bold text-white truncate flex items-center gap-1.5">'+esc(s.name)+' '+typeLabel+'</div><div class="text-[10px] text-slate-500 truncate font-mono mt-0.5">'+esc(urlLabel)+'</div></div><div class="flex gap-1"><button class="px-2 py-1 bg-cyan-600/20 hover:bg-cyan-600 text-cyan-300 hover:text-white rounded text-[10px] font-bold" data-browse="'+esc(s.id)+'">+ Browse</button><button class="px-2 py-1 bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white rounded text-[10px] font-bold" data-del="'+esc(s.id)+'"><i class="fa-solid fa-trash"></i></button></div>';
     row.querySelector('[data-del]').onclick=()=>removeSource(s.id);
     row.querySelector('[data-browse]').onclick=()=>openBrowseModal(s.id);
     wrap.appendChild(row);
   });
 }
-
 async function openBrowseModal(sourceId) {
   var src = state.sources.find(s => s.id === sourceId);
   if(!src) return;
   closeSourceManager();
   document.getElementById('browseChannelsModal').classList.add('show');
   document.getElementById('browseModalTitle').textContent = "লোড হচ্ছে: " + src.name;
-  document.getElementById('browseListContainer').innerHTML = '<div class="text-center py-20"><div class="w-10 h-10 border-4 border-brand-500/20 border-t-brand-accent rounded-full animate-spin mx-auto mb-3"></div><p class="text-xs text-slate-400">চ্যানেল লোড হচ্ছে...</p></div>';
+  document.getElementById('browseListContainer').innerHTML = '<div class="text-center py-20"><div class="w-10 h-10 border-4 border-brand-500/20 border-t-brand-accent rounded-full animate-spin mx-auto mb-3"></div><p class="text-xs text-slate-400">লোড হচ্ছে...</p></div>';
   state.browseSourceId = sourceId;
-  state.browseChannels = await fetchChannelsFromSource(src, false); 
+  state.browseChannels = await fetchChannelsFromSource(src, false);
   document.getElementById('browseModalTitle').textContent = src.name + " (" + state.browseChannels.length + ")";
   renderBrowseList();
 }
@@ -1048,28 +927,25 @@ function renderBrowseList() {
     var isAdded = addedNames.has(normalizeName(ch.name));
     var btnClass = isAdded ? 'bg-slate-700 text-slate-400 cursor-not-allowed' : 'bg-cyan-600 hover:bg-cyan-500 text-white cursor-pointer';
     var btnText = isAdded ? '<i class="fa-solid fa-check"></i> Added' : '<i class="fa-solid fa-plus"></i> Add';
-    row.innerHTML = '<div class="w-10 h-8 bg-slate-950 rounded flex items-center justify-center shrink-0 overflow-hidden pointer-events-none"><img src="'+esc(ch.logo||'https://placehold.co/40x30/000/fff?text=TV')+'" class="max-h-full max-w-full object-contain" referrerpolicy="no-referrer" crossorigin="anonymous" onerror="this.onerror=null;this.src=\'https://placehold.co/40x30/000/fff?text=TV\'"></div>' +
-      '<div class="min-w-0 flex-1 pointer-events-none"><div class="text-xs font-bold text-white truncate">'+esc(ch.name)+'</div><div class="text-[9px] text-brand-accent uppercase">'+esc(ch.category)+'</div></div>' +
-      '<button class="px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all '+btnClass+'">'+btnText+'</button>';
+    row.innerHTML = '<div class="w-10 h-8 bg-slate-950 rounded flex items-center justify-center shrink-0 overflow-hidden pointer-events-none"><img src="'+esc(ch.logo||'https://placehold.co/40x30/000/fff?text=TV')+'" class="max-h-full max-w-full object-contain" referrerpolicy="no-referrer" crossorigin="anonymous"></div><div class="min-w-0 flex-1 pointer-events-none"><div class="text-xs font-bold text-white truncate">'+esc(ch.name)+'</div><div class="text-[9px] text-brand-accent uppercase">'+esc(ch.category)+'</div></div><button class="px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all '+btnClass+'">'+btnText+'</button>';
     var btn = row.querySelector('button');
     btn.onclick = () => quickAddChannel(realIdx, btn);
     frag.appendChild(row);
   });
   wrap.appendChild(frag);
 }
-
 async function quickAddChannel(index, btnElement) {
   if(btnElement.classList.contains('cursor-not-allowed')) return;
   var ch = state.browseChannels[index];
   if(!ch) return;
-  var originalHtml = btnElement.innerHTML;
+  var origHtml = btnElement.innerHTML;
   btnElement.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i>';
   btnElement.classList.add('opacity-50');
   var isValid = await isStreamValid(ch.url);
   if(isValid) {
     var newCh = { id: ch.id || ('ch_'+Date.now()), name: ch.name, url: ch.url, category: ch.category || 'CUSTOM', logo: ch.logo || '', baseUrl: ch.url.split('?')[0] };
-    var existingIdx = state.channels.findIndex(c => normalizeName(c.name) === normalizeName(newCh.name));
-    if(existingIdx >= 0) { state.channels[existingIdx].url = newCh.url; state.channels[existingIdx].baseUrl = newCh.baseUrl; }
+    var exIdx = state.channels.findIndex(c => normalizeName(c.name) === normalizeName(newCh.name));
+    if(exIdx >= 0) { state.channels[exIdx].url = newCh.url; state.channels[exIdx].baseUrl = newCh.baseUrl; }
     else { state.channels.push(newCh); }
     syncAfterMutation();
     if(state.isAdmin) setUnsynced(true);
@@ -1077,8 +953,8 @@ async function quickAddChannel(index, btnElement) {
     btnElement.classList.remove('bg-cyan-600','hover:bg-cyan-500','opacity-50');
     btnElement.classList.add('bg-slate-700','text-slate-400','cursor-not-allowed');
   } else {
-    showAlert('❌ "'+ch.name+'" চ্যানেলটি সচল নয় বা লিংকটি ডেড!');
-    btnElement.innerHTML = originalHtml;
+    showAlert('❌ "'+ch.name+'" — চ্যানেলটি সচল নয়!');
+    btnElement.innerHTML = origHtml;
     btnElement.classList.remove('opacity-50');
   }
 }
@@ -1135,13 +1011,11 @@ async function onPMSourceChange(sourceId){
   document.getElementById('pmChannelList').innerHTML='<div class="text-center py-10"><div class="w-8 h-8 border-4 border-brand-500/20 border-t-brand-accent rounded-full animate-spin mx-auto mb-2"></div><p class="text-xs text-slate-400">লোড হচ্ছে...</p></div>';
   if(source.channels&&source.channels.length>0){
     state.channels=JSON.parse(JSON.stringify(source.channels));
-    saveChannels();renderList();renderPMList();
-    return;
+    saveChannels();renderList();renderPMList();return;
   }
   var parsed=await fetchChannelsFromSource(source,true,false);
   if(parsed.length>0){
-    state.channels=parsed;
-    source.channels=parsed;
+    state.channels=parsed; source.channels=parsed;
     saveSources();saveChannels();renderList();renderPMList();
   } else {
     document.getElementById('pmChannelList').innerHTML='<div class="text-center py-10 text-rose-500 text-xs font-bold">চ্যানেল লোড হয়নি বা সোর্স ডাউন!</div>';
@@ -1173,7 +1047,6 @@ async function loadPlaylistData(forceRefresh){
 }
 
 /* ==================== RENDER ==================== */
-function renderCategories(){ /* no-op: sidebar removed */ }
 function renderList(){
   var searchEl=document.getElementById('listSearch');
   var q=(searchEl?searchEl.value:'').toLowerCase().trim();
@@ -1193,46 +1066,40 @@ function renderList(){
   });
   grid.appendChild(frag);
 }
-
 function toggleChannelList(){
   var modal=document.getElementById('channelListModal'),sheet=document.getElementById('channelListSheet');
   if(modal.classList.contains('hidden')){
     modal.classList.remove('hidden');
     setTimeout(()=>{modal.classList.remove('opacity-0');sheet.classList.remove('translate-y-full')},10);
-    state.listFocusIndex = 0; 
+    state.listFocusIndex = 0;
     setTimeout(updateListFocus, 100);
-  }
-  else{
+  } else {
     modal.classList.add('opacity-0');
     sheet.classList.add('translate-y-full');
     setTimeout(()=>modal.classList.add('hidden'),300);
   }
 }
-
 function updateListFocus() {
   var items = document.querySelectorAll('#listGrid > div');
   if (!items || items.length === 0) return;
   if (state.listFocusIndex >= items.length) state.listFocusIndex = items.length - 1;
   if (state.listFocusIndex < 0) state.listFocusIndex = 0;
-  
   items.forEach(el => el.classList.remove('tv-focus'));
   var activeEl = items[state.listFocusIndex];
-  if (activeEl) {
-    activeEl.classList.add('tv-focus');
-    activeEl.scrollIntoView({ block: 'nearest' });
-  }
+  if (activeEl) { activeEl.classList.add('tv-focus'); activeEl.scrollIntoView({ block: 'nearest' }); }
 }
-
 var _lSearch=document.getElementById('listSearch');if(_lSearch)_lSearch.addEventListener('input',renderList);
 
-/* ==================== PLAYER ==================== */
+/* ==================== PLAYER (CRITICAL FIXES) ==================== */
 let mediaRecoveryAttempts = 0;
 
-function initHLS(){
+function isVideoActuallyPlaying(){
+  return !video.paused && video.readyState >= 2 && video.currentTime > 0.3;
+}
+
+function initHLS(sessionId){
   if(!Hls.isSupported())return;
-  
-  video.oncanplay = null;
-  video.onerror = null;
+  var localSession = (sessionId !== undefined) ? sessionId : state.playSessionId;
   
   if(state.hls){
     try{ state.hls.stopLoad(); }catch(e){}
@@ -1240,91 +1107,70 @@ function initHLS(){
     try{ state.hls.destroy(); }catch(e){}
     state.hls = null;
   }
-  
   state.usingNativePlayer = false;
   mediaRecoveryAttempts = 0;
-  
   video.pause();
   video.removeAttribute('src');
   video.load();
 
   state.hls=new Hls({
-    enableWorker:false,
-    lowLatencyMode:false,
-    maxBufferLength:8, 
-    maxMaxBufferLength:15,
-    manifestLoadingTimeOut:4000,
-    fragLoadingTimeOut:4000,
-    manifestLoadingMaxRetry:1,
-    fragLoadingMaxRetry:1,
-    startLevel:-1,
-    capLevelToPlayerSize:true,
-    startFragPrefetch:true,
+    enableWorker:false, lowLatencyMode:false,
+    maxBufferLength:15, maxMaxBufferLength:30,
+    manifestLoadingTimeOut:10000, fragLoadingTimeOut:10000,
+    manifestLoadingMaxRetry:2, fragLoadingMaxRetry:2,
+    startLevel:-1, capLevelToPlayerSize:true, startFragPrefetch:true,
     abrEwmaDefaultEstimate:800000,
     xhrSetup:function(xhr){xhr.withCredentials=false}
   });
-  
   state.hls.attachMedia(video);
-  
+
   state.hls.on(Hls.Events.MANIFEST_PARSED,function(event,data){
+    if (state.playSessionId !== localSession) return;  // ✅ stale event guard
     let maxLevel=data.levels.length-1;
     for(let i=0;i<data.levels.length;i++){if(data.levels[i].height>1080){maxLevel=i-1;break}}
     if(maxLevel>=0)state.hls.autoLevelCapping=maxLevel;
-    
     clearTimeout(noSignalTimer);
     noSignalScreen.classList.add('hidden');
+    noSignalScreen.classList.remove('flex');
     video.muted=true;video.volume=state.volume;
     video.play().then(()=>{
       setTimeout(()=>{video.muted=false;video.volume=state.volume},500);
     }).catch(()=>{video.muted=false;video.play().catch(()=>{})});
   });
-  
+
   state.hls.on(Hls.Events.ERROR,async function(e,data){
+    if (state.playSessionId !== localSession) return;  // ✅ stale event guard
     if(!data.fatal)return;
-    
     var ch = state.channels[state.currentIndex];
     var isToffee = ch && ch.url.indexOf('edge-cache-token') !== -1;
 
     if(data.type===Hls.ErrorTypes.MEDIA_ERROR){
-      if(mediaRecoveryAttempts < 1){ 
-        mediaRecoveryAttempts++;
-        state.hls.recoverMediaError();
-      } else {
-        handleStreamPlaybackError();
-      }
+      if(mediaRecoveryAttempts < 1){ mediaRecoveryAttempts++; state.hls.recoverMediaError(); }
+      else handleStreamPlaybackError();
       return;
     }
-    
     if(data.type===Hls.ErrorTypes.NETWORK_ERROR){
-      if (isToffee && !state.healingInProgress) {
-          var healKey = normalizeName(ch.name);
-          state.channelHealAttempts[healKey] = (state.channelHealAttempts[healKey] || 0) + 1;
-          if (state.channelHealAttempts[healKey] <= MAX_HEAL_ATTEMPTS) {
-              var healed = await attemptAutoHeal(ch, state.currentIndex, state.playSessionId);
-              if (healed) return;
-          }
+      if (ch && !state.healingInProgress) {
+        var healKey = normalizeName(ch.name);
+        state.channelHealAttempts[healKey] = (state.channelHealAttempts[healKey] || 0) + 1;
+        if (state.channelHealAttempts[healKey] <= MAX_HEAL_ATTEMPTS) {
+          var healed = await attemptAutoHeal(ch, state.currentIndex, state.playSessionId);
+          if (healed) return;
+        }
       }
-
-      if(state.currentAttemptProxyIdx<FAST_PROXIES.length){
+      if(state.currentAttemptProxyIdx < FAST_PROXIES.length && ch && !isToffee){
         state.currentAttemptProxyIdx++;
         if(ch)loadStreamSource(ch.url, false, state.playSessionId);
         else handleStreamPlaybackError();
         return;
       }
-      
       if (ch) {
-          var isToffeeUrl = ch.url.indexOf('edge-cache-token') !== -1;
-          var nativeOk = await tryNativePlayback(ch.url, !isToffeeUrl);
+        var canPlayNativeHls = video.canPlayType('application/vnd.apple.mpegurl') !== '';
+        var urlIsHls = ch.url.indexOf('.m3u8') !== -1;
+        if (!urlIsHls || canPlayNativeHls) {
+          var nativeOk = await tryNativePlayback(ch.url, !isToffee);
           if (nativeOk) return;
-          
-          if (!state.healingInProgress && !isToffee) {
-              var healKey2 = normalizeName(ch.name);
-              state.channelHealAttempts[healKey2] = (state.channelHealAttempts[healKey2] || 0) + 1;
-              if (state.channelHealAttempts[healKey2] <= MAX_HEAL_ATTEMPTS) {
-                  var healed2 = await attemptAutoHeal(ch, state.currentIndex, state.playSessionId);
-                  if (healed2) return;
-              }
-          }
+        }
       }
       handleStreamPlaybackError();
       return;
@@ -1338,13 +1184,10 @@ async function tryNativePlayback(url,removeCors){
     try{
       if(state.hls){try{state.hls.destroy()}catch(e){}state.hls=null}
       state.usingNativePlayer=true;
-      
       noSignalScreen.classList.add('hidden');
       var hadCors=video.hasAttribute('crossorigin');
       if(removeCors&&hadCors)video.removeAttribute('crossorigin');
-      
       video.pause();video.removeAttribute('src');video.load();
-      
       var resolved=false;
       var timer=setTimeout(()=>{
         if(resolved)return;resolved=true;
@@ -1352,7 +1195,6 @@ async function tryNativePlayback(url,removeCors){
         if(removeCors&&hadCors)video.setAttribute('crossorigin','anonymous');
         resolve(false);
       },5000);
-      
       video.oncanplay=function(){
         if(resolved)return;resolved=true;
         clearTimeout(timer);video.oncanplay=null;video.onerror=null;
@@ -1361,14 +1203,12 @@ async function tryNativePlayback(url,removeCors){
           resolve(true);
         }).catch(()=>resolve(false));
       };
-      
       video.onerror=function(){
         if(resolved)return;resolved=true;
         clearTimeout(timer);video.oncanplay=null;video.onerror=null;
         if(removeCors&&hadCors)video.setAttribute('crossorigin','anonymous');
         resolve(false);
       };
-      
       video.src=url;video.load();
     }catch(e){resolve(false)}
   });
@@ -1376,49 +1216,49 @@ async function tryNativePlayback(url,removeCors){
 
 function loadStreamSource(rawUrl,isHealRetry,sessionId){
   var url=rawUrl;
-  
-  if(url.indexOf('edge-cache-token')!==-1 && !isHealRetry){
-    let expiry = getTokenExpiry(url);
-    let now = Math.floor(Date.now()/1000);
-    if(expiry > 0 && (expiry - now < 300)) {
-       url = buildFreshStreamUrl({ url: url });
-       let ch = state.channels[state.currentIndex];
-       if(ch) { ch.url = url; saveChannelsDebounced(); }
-    }
-  }
+  // Toffee token auto-refresh — just re-fetch source, DO NOT fabricate tokens
+  // (previous buildFreshStreamUrl with Signature=FIXED produced invalid URLs)
 
-  if(state.currentAttemptProxyIdx>0){var proxy=FAST_PROXIES[(state.currentAttemptProxyIdx-1)%FAST_PROXIES.length];url=proxy+encodeURIComponent(rawUrl)}
+  if(state.currentAttemptProxyIdx>0 && url.indexOf('edge-cache-token')===-1){
+    // Only use proxies for non-Toffee URLs (proxy strips token = worse)
+    var proxy=FAST_PROXIES[(state.currentAttemptProxyIdx-1)%FAST_PROXIES.length];
+    url=proxy+encodeURIComponent(rawUrl);
+  }
   
   noSignalScreen.classList.add('hidden');
   noSignalScreen.classList.remove('flex');
-  
   video.muted=true;video.volume=state.volume;
   videoBlocker.style.display='block';videoBlocker.style.backgroundColor='black';
   
   clearTimeout(noSignalTimer);
   noSignalTimer=setTimeout(async function(){
     if (state.playSessionId !== sessionId) return;
+    if (isVideoActuallyPlaying()) return;  // ✅ CRITICAL FIX: sound is playing, don't show NO SIGNAL
     
     var currentCh=state.channels[state.currentIndex];
     if(currentCh&&!isHealRetry&&!state.healingInProgress){
-      if(!state.usingNativePlayer){
-        var isToffee=currentCh.url.indexOf('edge-cache-token')!==-1;
-        var nativeOk=await tryNativePlayback(currentCh.url,!isToffee);
-        if(nativeOk)return;
-      }
+      var isToffee=currentCh.url.indexOf('edge-cache-token')!==-1;
       var healKey=normalizeName(currentCh.name);
       state.channelHealAttempts[healKey]=(state.channelHealAttempts[healKey]||0)+1;
       if(state.channelHealAttempts[healKey]<=MAX_HEAL_ATTEMPTS){
         var healed=await attemptAutoHeal(currentCh,state.currentIndex, sessionId);
         if(healed)return;
       }
+      // Try native only if HLS never made progress
+      if(!state.usingNativePlayer && (!state.hls || !state.hls.levels || state.hls.levels.length===0)){
+        var canPlayNativeHls = video.canPlayType('application/vnd.apple.mpegurl') !== '';
+        var urlIsHls = currentCh.url.indexOf('.m3u8') !== -1;
+        if(!urlIsHls || canPlayNativeHls){
+          var nativeOk=await tryNativePlayback(currentCh.url,!isToffee);
+          if(nativeOk)return;
+        }
+      }
     }
-    
     noSignalScreen.classList.remove('hidden');
     noSignalScreen.classList.add('flex');
-    dthLoadingState.classList.add('hidden'); 
+    dthLoadingState.classList.add('hidden');
     if(state.hls){try{state.hls.stopLoad()}catch(e){}}
-  },4000);
+  }, NOSIGNAL_TIMEOUT_MS);
   
   if(Hls.isSupported()&&state.hls){
     try{state.hls.stopLoad()}catch(e){}
@@ -1430,28 +1270,23 @@ function loadStreamSource(rawUrl,isHealRetry,sessionId){
 
 function playChannel(ch,index){
   if(state.switching)return;
-  
-  let now = Date.now();
+  var now = Date.now();
   if (now - state.lastSwitchTime < 500) return;
   state.lastSwitchTime = now;
-  
   state.switching=true;
   
   state.playSessionId++;
   var currentSession = state.playSessionId;
   
   state.currentIndex=index;state.currentAttemptProxyIdx=0;state.usingNativePlayer=false;
-  
   state.isZapping = true;
   clearTimeout(window._zapTimer);
   window._zapTimer = setTimeout(() => { state.isZapping = false; }, 3000);
   
   var healKey=normalizeName(ch.name);state.channelHealAttempts[healKey]=0;
-  
   showDTHOSD(ch,index,true);
-  
   setupAudioNormalization();
-  initHLS(); 
+  initHLS(currentSession);                       // ✅ pass session
   loadStreamSource(ch.url, false, currentSession);
   resetControlTimer();
   state.switching=false;
@@ -1466,7 +1301,7 @@ function playChannel(ch,index){
   }
 }
 
-function retryCurrentChannel(){var ch=state.channels[state.currentIndex];if(ch){state.currentAttemptProxyIdx=0;state.usingNativePlayer=false;initHLS();loadStreamSource(ch.url, false, state.playSessionId)}}
+function retryCurrentChannel(){var ch=state.channels[state.currentIndex];if(ch){state.currentAttemptProxyIdx=0;state.usingNativePlayer=false;initHLS(state.playSessionId);loadStreamSource(ch.url, false, state.playSessionId)}}
 function playNextChannel(){if(!state.channels.length||state.switching)return;var idx=(state.currentIndex+1)%state.channels.length;playChannel(state.channels[idx],idx)}
 function playPrevChannel(){if(!state.channels.length||state.switching)return;var idx=(state.currentIndex-1+state.channels.length)%state.channels.length;playChannel(state.channels[idx],idx)}
 function togglePlayPause(){if(video.paused)video.play();else video.pause();}
@@ -1478,6 +1313,17 @@ function handleStreamPlaybackError(){
   videoBlocker.style.backgroundColor='rgba(0,0,0,0.8)';
 }
 
+// ✅ CRITICAL FIX: timeupdate — auto-hide NO SIGNAL if video is actually playing
+video.addEventListener('timeupdate', function(){
+  if (video.currentTime > 0.3 && !video.paused) {
+    clearTimeout(noSignalTimer);
+    noSignalScreen.classList.add('hidden');
+    noSignalScreen.classList.remove('flex');
+    dthLoadingState.classList.add('hidden');
+    videoBlocker.style.backgroundColor = 'transparent';
+  }
+});
+
 video.addEventListener('error', function(){
   if (state.hls) return;
   clearTimeout(noSignalTimer);
@@ -1488,8 +1334,8 @@ video.addEventListener('playing',function(){
   videoBlocker.style.backgroundColor='transparent';
   clearTimeout(noSignalTimer);
   noSignalScreen.classList.add('hidden');
-  dthLoadingState.classList.add('hidden'); 
-  
+  noSignalScreen.classList.remove('flex');
+  dthLoadingState.classList.add('hidden');
   if (dthOverlay.classList.contains('show')) {
     if(dthTimer) clearTimeout(dthTimer);
     dthTimer = setTimeout(() => dthOverlay.classList.remove('show'), DTH_DISPLAY_MS);
@@ -1500,16 +1346,10 @@ video.addEventListener('playing',function(){
 function showDTHOSD(ch,index, isNewChannel){
   dthChannelNum.textContent=String(index+1);
   dthChannelName.textContent=ch.name;
-  
-  if (isNewChannel) {
-    dthLoadingState.classList.remove('hidden');
-  } else {
-    dthLoadingState.classList.add('hidden');
-  }
-  
+  if (isNewChannel) dthLoadingState.classList.remove('hidden');
+  else dthLoadingState.classList.add('hidden');
   dthOverlay.classList.add('show');
   if(dthTimer)clearTimeout(dthTimer);
-  
   if (!isNewChannel || (!video.paused && video.readyState >= 3)) {
     dthTimer=setTimeout(()=>dthOverlay.classList.remove('show'),DTH_DISPLAY_MS);
   }
@@ -1521,11 +1361,9 @@ function resetControlTimer(){
   clearTimeout(window.controlTimeout);
   window.controlTimeout=setTimeout(()=>{if(!video.paused)playerControls.classList.add('hidden-ui')},CONTROLS_AUTO_HIDE_MS);
 }
-
 function handleTap(){
   var ch = state.channels[state.currentIndex];
   var wasHidden = playerControls.classList.contains('hidden-ui');
-  
   if(wasHidden){
     resetControlTimer();
     if (ch) showDTHOSD(ch, state.currentIndex, false);
@@ -1533,7 +1371,6 @@ function handleTap(){
     togglePlayPause();
   }
 }
-
 async function goFullscreen(){
   try{
     if(document.fullscreenElement || document.webkitFullscreenElement) return;
@@ -1559,28 +1396,24 @@ window.addEventListener('keydown',function(e){
   var isInput=ae&&(ae.tagName==='INPUT'||ae.tagName==='TEXTAREA'||ae.isContentEditable);
   if(isInput) return;
   
-  const isOk = isOkKey(e);
-  
-  if (isOk) {
-      var clModal = document.getElementById('channelListModal');
-      if (!clModal.classList.contains('hidden')) {
-          e.preventDefault();
-          var items = document.querySelectorAll('#listGrid > div');
-          if (items.length > 0 && items[state.listFocusIndex]) {
-              items[state.listFocusIndex].click();
-          }
-          return;
-      }
-      
-      if (!okHeld) {
-          okHeld = true;
-          okHoldFired = false;
-          okHoldTimer = setTimeout(() => {
-              okHoldFired = true;
-              toggleChannelList();
-          }, 5000);
-      }
+  if (isOkKey(e)) {
+    var clModal = document.getElementById('channelListModal');
+    if (!clModal.classList.contains('hidden')) {
+      e.preventDefault();
+      var items = document.querySelectorAll('#listGrid > div');
+      if (items.length > 0 && items[state.listFocusIndex]) items[state.listFocusIndex].click();
       return;
+    }
+    if (!okHeld) {
+      okHeld = true;
+      okHoldFired = false;
+      okHoldTimer = setTimeout(() => {
+        okHoldFired = true;
+        if (navigator.vibrate) navigator.vibrate(40);
+        toggleChannelList();
+      }, OK_HOLD_MS);  // ✅ 2 seconds
+    }
+    return;
   }
 
   if(e.key>='0'&&e.key<='9'){
@@ -1596,16 +1429,15 @@ window.addEventListener('keydown',function(e){
 
   var clModal2 = document.getElementById('channelListModal');
   if (!clModal2.classList.contains('hidden')) {
-      e.preventDefault();
-      var items2 = document.querySelectorAll('#listGrid > div');
-      if (items2.length === 0) return;
-      
-      if (e.key === 'ArrowRight') { state.listFocusIndex = (state.listFocusIndex + 1) % items2.length; updateListFocus(); }
-      else if (e.key === 'ArrowLeft') { state.listFocusIndex = (state.listFocusIndex - 1 + items2.length) % items2.length; updateListFocus(); }
-      else if (e.key === 'ArrowDown') { state.listFocusIndex = Math.min(state.listFocusIndex + 2, items2.length - 1); updateListFocus(); } 
-      else if (e.key === 'ArrowUp') { state.listFocusIndex = Math.max(state.listFocusIndex - 2, 0); updateListFocus(); }
-      else if (e.key === 'Escape' || e.key === 'Backspace') { toggleChannelList(); }
-      return;
+    e.preventDefault();
+    var items2 = document.querySelectorAll('#listGrid > div');
+    if (items2.length === 0) return;
+    if (e.key === 'ArrowRight') { state.listFocusIndex = (state.listFocusIndex + 1) % items2.length; updateListFocus(); }
+    else if (e.key === 'ArrowLeft') { state.listFocusIndex = (state.listFocusIndex - 1 + items2.length) % items2.length; updateListFocus(); }
+    else if (e.key === 'ArrowDown') { state.listFocusIndex = Math.min(state.listFocusIndex + 2, items2.length - 1); updateListFocus(); }
+    else if (e.key === 'ArrowUp') { state.listFocusIndex = Math.max(state.listFocusIndex - 2, 0); updateListFocus(); }
+    else if (e.key === 'Escape' || e.key === 'Backspace') { toggleChannelList(); }
+    return;
   }
 
   var po=document.getElementById('playerOverlay');
@@ -1624,12 +1456,11 @@ window.addEventListener('keyup',function(e){
   if (!isOkKey(e)) return;
   clearTimeout(okHoldTimer);
   if (okHeld && !okHoldFired) {
-      var clModal = document.getElementById('channelListModal');
-      if (clModal.classList.contains('hidden')) {
-          handleTap(); 
-      }
+    var clModal = document.getElementById('channelListModal');
+    if (clModal.classList.contains('hidden')) handleTap();
   }
   okHeld = false;
+  okHoldFired = false;
 });
 
 /* ==================== PIN ==================== */
@@ -1692,7 +1523,7 @@ function renderPMList(){
     var row=document.createElement('div');
     row.className='ch-list-row rounded-xl p-2.5 flex items-center gap-2.5';
     row.dataset.index=i;
-    row.innerHTML='<div class="row-grip text-slate-500 hover:text-white px-2 py-3 relative z-10 flex items-center justify-center"><i class="fa-solid fa-grip-vertical"></i></div><div class="w-12 h-9 bg-slate-950 rounded flex items-center justify-center shrink-0 overflow-hidden relative z-10 pointer-events-none"><img src="'+esc(c.logo||'https://placehold.co/60x40/0b0f19/3b82f6?text=TV')+'" class="max-h-full max-w-full object-contain" referrerpolicy="no-referrer" crossorigin="anonymous" onerror="this.onerror=null;this.src=\'https://placehold.co/60x40/0b0f19/3b82f6?text=TV\'"></div><div class="min-w-0 flex-1 relative z-10 pointer-events-none"><div class="text-xs font-bold text-white truncate">'+esc(c.name)+'</div><div class="flex items-center gap-1.5 mt-0.5"><span class="text-[10px] text-brand-accent font-semibold uppercase">'+esc(c.category)+'</span></div></div><div class="flex items-center gap-1.5 relative z-10"><button class="pm-bolt px-2 py-1.5 bg-amber-500/20 hover:bg-amber-500 text-amber-300 hover:text-slate-950 rounded-lg text-[10px] font-bold border border-amber-500/40 transition-colors"><i class="fa-solid fa-bolt"></i></button><button class="pm-edit px-2 py-1.5 bg-brand-600/20 hover:bg-brand-600 text-brand-300 hover:text-white rounded-lg text-[10px] font-bold border border-brand-500/40 transition-colors"><i class="fa-solid fa-wrench"></i></button><button class="pm-del px-2 py-1.5 bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white rounded-lg text-[10px] font-bold border border-rose-500/40 transition-colors"><i class="fa-solid fa-trash"></i></button></div>';
+    row.innerHTML='<div class="row-grip text-slate-500 hover:text-white px-2 py-3 relative z-10 flex items-center justify-center"><i class="fa-solid fa-grip-vertical"></i></div><div class="w-12 h-9 bg-slate-950 rounded flex items-center justify-center shrink-0 overflow-hidden relative z-10 pointer-events-none"><img src="'+esc(c.logo||'https://placehold.co/60x40/0b0f19/3b82f6?text=TV')+'" class="max-h-full max-w-full object-contain" referrerpolicy="no-referrer" crossorigin="anonymous" onerror="this.onerror=null;this.src=\'https://placehold.co/60x40/0b0f19/3b82f6?text=TV\'"></div><div class="min-w-0 flex-1 relative z-10 pointer-events-none"><div class="text-xs font-bold text-white truncate">'+esc(c.name)+'</div><div class="flex items-center gap-1.5 mt-0.5"><span class="text-[10px] text-brand-accent font-semibold uppercase">'+esc(c.category)+'</span></div></div><div class="flex items-center gap-1.5 relative z-10"><button class="pm-bolt px-2 py-1.5 bg-amber-500/20 hover:bg-amber-500 text-amber-300 hover:text-slate-950 rounded-lg text-[10px] font-bold border border-amber-500/40"><i class="fa-solid fa-bolt"></i></button><button class="pm-edit px-2 py-1.5 bg-brand-600/20 hover:bg-brand-600 text-brand-300 hover:text-white rounded-lg text-[10px] font-bold border border-brand-500/40"><i class="fa-solid fa-wrench"></i></button><button class="pm-del px-2 py-1.5 bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white rounded-lg text-[10px] font-bold border border-rose-500/40"><i class="fa-solid fa-trash"></i></button></div>';
     row.querySelector('.pm-bolt').onclick=(ev)=>{ev.stopPropagation();pmDisturb(i)};
     row.querySelector('.pm-edit').onclick=(ev)=>{ev.stopPropagation();pmEdit(i)};
     row.querySelector('.pm-del').onclick=(ev)=>{ev.stopPropagation();pmRemove(i)};
@@ -1715,29 +1546,20 @@ function renderPMList(){
     }
   });
 }
-async function pmDisturb(i){var ch=state.channels[i];if(!ch)return;await disturbFixChannel(i,state.pmSelectedSource);syncAfterMutation();renderPMList();if(state.currentIndex===i){state.currentAttemptProxyIdx=0;state.usingNativePlayer=false;initHLS();loadStreamSource(ch.url, false, state.playSessionId)}if(state.isAdmin)setUnsynced(true)}
+async function pmDisturb(i){var ch=state.channels[i];if(!ch)return;await disturbFixChannel(i,state.pmSelectedSource);syncAfterMutation();renderPMList();if(state.currentIndex===i){state.currentAttemptProxyIdx=0;state.usingNativePlayer=false;initHLS(state.playSessionId);loadStreamSource(ch.url, false, state.playSessionId)}if(state.isAdmin)setUnsynced(true)}
 function pmEdit(i){state.ctxIndex=i;document.getElementById('editStreamUrlInput').value=state.channels[i].url;document.getElementById('editStreamModal').classList.remove('hidden')}
-
 function pmRemove(i){
   var ch=state.channels[i];if(!ch)return;
   showConfirm("চ্যানেল ডিলিট", '"'+ch.name+'" মুছে ফেলবেন?', function(){
     state.lastRemovedChannel = { index: i, channel: ch };
     state.channels.splice(i, 1);
-    syncAfterMutation();
-    renderPMList();
+    syncAfterMutation(); renderPMList();
     if(state.currentIndex >= state.channels.length) state.currentIndex = 0;
     if(state.isAdmin)setUnsynced(true);
   });
 }
 
 /* ==================== CONTEXT MENU ==================== */
-function openContextMenu(ch,index){
-  state.selectedChannelId=ch.id;state.ctxIndex=index;
-  document.getElementById('ctxChannelLogo').src=ch.logo||'https://placehold.co/100x100/1e293b/ffffff?text=TV';
-  document.getElementById('ctxChannelName').textContent=ch.name;
-  document.getElementById('ctxChannelCategory').textContent=ch.category;
-  document.getElementById('channelContextMenu').classList.remove('hidden');
-}
 function closeContextMenu(){document.getElementById('channelContextMenu').classList.add('hidden')}
 function triggerStreamEdit(){closeContextMenu();var ch=state.channels[state.ctxIndex];if(!ch)return;document.getElementById('editStreamUrlInput').value=ch.url;document.getElementById('editStreamModal').classList.remove('hidden')}
 function closeEditStreamModal(){document.getElementById('editStreamModal').classList.add('hidden')}
@@ -1775,7 +1597,6 @@ async function disturbFixChannel(index,sourceIdOrAuto){
   else chosen=getActiveSource();
   if(ch.url&&ch.url.indexOf('_fresh=')!==-1){ch.url=cleanUrl(ch.url);ch.baseUrl=ch.url.split('?')[0]}
   var fresh=await fetchFreshFromSpecificSource(ch,chosen);
-  if(!fresh)fresh=buildFreshStreamUrl(ch);
   if(fresh&&fresh!==ch.url){ch.url=fresh;ch.baseUrl=fresh.split('?')[0];return true}
   return false;
 }
@@ -1784,10 +1605,10 @@ async function triggerDisturbFix(){
   var ch=state.channels[idx];if(!ch)return;
   var ok=await disturbFixChannel(idx,state.pmSelectedSource);
   syncAfterMutation();
-  if(state.currentIndex===idx){state.currentAttemptProxyIdx=0;state.usingNativePlayer=false;initHLS();loadStreamSource(ch.url, false, state.playSessionId)}
+  if(state.currentIndex===idx){state.currentAttemptProxyIdx=0;state.usingNativePlayer=false;initHLS(state.playSessionId);loadStreamSource(ch.url, false, state.playSessionId)}
   if(state.isAdmin)setUnsynced(true);
   if(ok)showAlert('✅ "'+ch.name+'" — লিংক আপডেট হয়েছে');
-  else showAlert('ℹ️ "'+ch.name+'" — সোর্সে নতুন লিংক পাওয়া যায়নি, চ্যানেল রিলোড করা হচ্ছে');
+  else showAlert('ℹ️ "'+ch.name+'" — সোর্সে নতুন লিংক পাওয়া যায়নি');
 }
 async function fixAllBrokenChannels(){
   if(!state.channels.length)return;
@@ -1800,7 +1621,7 @@ async function fixAllBrokenChannels(){
   });
 }
 
-/* ==================== ADD CHANNEL (MANUAL WIZARD) ==================== */
+/* ==================== ADD CHANNEL WIZARD ==================== */
 function updateWizHints(){
   var nameEl=document.getElementById('wizName');
   var name=nameEl?(nameEl.value.trim().toLowerCase()||''):'';
@@ -1821,22 +1642,129 @@ async function wizardAddChannel(){
   btn.disabled=true;btn.innerHTML='<i class="fa-solid fa-spinner fa-spin mr-1"></i> খোঁজা হচ্ছে...';
   try{
     var parsed=await fetchChannelsFromSource(source,false,false);
-    if(!parsed.length){showAlert('সোর্স প্লেলিস্ট লোড করা যায়নি। ইন্টারনেট চেক করুন বা "Browse" থেকে ট্রাই করুন।');return}
+    if(!parsed.length){showAlert('সোর্স প্লেলিস্ট লোড করা যায়নি।');return}
     var match=findBestMatch(parsed,name);
-    if(!match){var sample=parsed.slice(0,8).map(p=>'• '+p.name).join('\n');showAlert('"'+name+'" নামে কোনো চ্যানেল "'+source.name+'"-এ পাওয়া যায়নি।\n\nকিছু চ্যানেল:\n'+sample);return}
-    btn.innerHTML='<i class="fa-solid fa-spinner fa-spin mr-1"></i> লিংক চেক করা হচ্ছে...';
+    if(!match){var sample=parsed.slice(0,8).map(p=>'• '+p.name).join('\n');showAlert('"'+name+'" পাওয়া যায়নি।\n\nকিছু চ্যানেল:\n'+sample);return}
+    btn.innerHTML='<i class="fa-solid fa-spinner fa-spin mr-1"></i> লিংক চেক...';
     var isValid=await isStreamValid(match.url);
-    if(!isValid){showAlert('❌ "'+match.name+'" চ্যানেলটি সচল নয় বা লিংকটি ডেড!');return}
+    if(!isValid){showAlert('❌ "'+match.name+'" — চ্যানেলটি সচল নয়!');return}
     var newCh={id:match.id||('ch_'+Date.now()),name:match.name,url:match.url,category:match.category||'CUSTOM',logo:match.logo||'',baseUrl:match.url.split('?')[0]};
-    var existingIdx=state.channels.findIndex(c=>normalizeName(c.name)===normalizeName(newCh.name));
+    var exIdx=state.channels.findIndex(c=>normalizeName(c.name)===normalizeName(newCh.name));
     var pos=Math.max(0,Math.min(position-1,state.channels.length));
-    if(existingIdx>=0){state.channels.splice(existingIdx,1);if(existingIdx<pos)pos=Math.max(0,pos-1)}
+    if(exIdx>=0){state.channels.splice(exIdx,1);if(exIdx<pos)pos=Math.max(0,pos-1)}
     state.channels.splice(pos,0,newCh);
     syncAfterMutation();
     closeAddChannelModal();
     if(state.isAdmin)setUnsynced(true);
-    showAlert('✅ "'+newCh.name+'" → '+(pos+1)+' নম্বরে যোগ হয়েছে\n\n💡 "গ্লোবাল সিঙ্ক" দিয়ে শেয়ার করুন।');
+    showAlert('✅ "'+newCh.name+'" → '+(pos+1)+' নম্বরে যোগ হয়েছে');
   }finally{btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-bolt mr-1"></i> অ্যাড করুন'}
+}
+
+/* ==================== HEALTH CHECKER (NEW FEATURE) ==================== */
+function openHealthChecker(){
+  document.getElementById('adminPanelModal').classList.add('hidden');
+  document.getElementById('healthCheckerModal').classList.remove('hidden');
+  document.getElementById('healthCheckerModal').classList.add('flex');
+  document.getElementById('healthResults').innerHTML='';
+  document.getElementById('healthProgressBar').style.width='0%';
+  document.getElementById('healthStatus').textContent='শুরু করুন বাটনে ক্লিক করুন';
+  document.getElementById('healthStats').textContent='';
+  document.getElementById('healthStartBtn').disabled=false;
+  document.getElementById('healthStartBtn').innerHTML='<i class="fa-solid fa-play mr-1"></i> চেক শুরু';
+  state.healthChecking=false;
+}
+function closeHealthChecker(){
+  if(state.healthChecking)return;
+  document.getElementById('healthCheckerModal').classList.remove('flex');
+  document.getElementById('healthCheckerModal').classList.add('hidden');
+  document.getElementById('adminPanelModal').classList.remove('hidden');
+}
+async function startHealthCheck(){
+  if(state.healthChecking)return;
+  state.healthChecking=true;
+  var btn=document.getElementById('healthStartBtn');
+  btn.disabled=true;
+  btn.innerHTML='<i class="fa-solid fa-spinner fa-spin mr-1"></i> চলছে...';
+  
+  var channels = state.channels;
+  var total = channels.length;
+  if(total === 0){ showAlert('কোনো চ্যানেল নেই!'); state.healthChecking=false; btn.disabled=false; return; }
+  
+  document.getElementById('healthResults').innerHTML='';
+  document.getElementById('healthStatus').textContent='🔄 সোর্স থেকে ফ্রেশ লিংক আনা হচ্ছে...';
+  
+  // Step 1: Refresh source to get fresh URLs (especially for Toffee)
+  var source = getActiveSource();
+  if(source){
+    try {
+      var parsed = await fetchChannelsFromSource(source, true, false);
+      if (parsed && parsed.length > 0) {
+        channels = mergeChannelUrls(channels, parsed);
+        state.channels = channels;
+        saveChannels();
+      }
+    } catch(e){}
+  }
+  
+  document.getElementById('healthStatus').textContent='🔍 চ্যানেল টেস্ট করা হচ্ছে...';
+  
+  // Step 2: Test each channel with concurrency
+  var results = new Array(total);
+  var done = 0;
+  var liveCount = 0, deadCount = 0;
+  var queue = channels.map((ch, i) => i);
+  
+  async function worker() {
+    while (queue.length > 0) {
+      var idx = queue.shift();
+      if (idx === undefined) break;
+      var ch = channels[idx];
+      var isLive = false;
+      try {
+        isLive = await isStreamValid(ch.url);
+      } catch(e) {}
+      results[idx] = isLive;
+      if(isLive) liveCount++; else deadCount++;
+      done++;
+      
+      // Update progress
+      document.getElementById('healthProgressBar').style.width = (done / total * 100) + '%';
+      document.getElementById('healthStatus').textContent = '🔍 ' + done + ' / ' + total + ' চেক হয়েছে';
+      document.getElementById('healthStats').innerHTML = '<span class="text-emerald-400">● '+liveCount+' LIVE</span> &nbsp; <span class="text-rose-400">● '+deadCount+' DEAD</span>';
+      
+      // Update individual result
+      updateHealthResult(idx, ch, isLive);
+    }
+  }
+  
+  var workers = [];
+  var concurrency = 5;
+  for(var w = 0; w < concurrency; w++) workers.push(worker());
+  await Promise.all(workers);
+  
+  document.getElementById('healthStatus').textContent = '✅ সম্পন্ন! লাইভ: ' + liveCount + ' | ডেড: ' + deadCount;
+  state.healthChecking = false;
+  btn.disabled=false;
+  btn.innerHTML='<i class="fa-solid fa-rotate mr-1"></i> আবার চেক';
+}
+function updateHealthResult(index, ch, isLive){
+  var container = document.getElementById('healthResults');
+  var el = document.getElementById('health-result-' + index);
+  var html = '<div class="flex items-center gap-2 p-2 rounded-lg ' + (isLive ? 'bg-emerald-900/25 border border-emerald-700/30' : 'bg-rose-900/25 border border-rose-700/30') + '">' +
+    '<div class="w-2.5 h-2.5 rounded-full shrink-0 ' + (isLive ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]' : 'bg-rose-500') + '"></div>' +
+    '<div class="min-w-0 flex-1"><div class="text-xs text-white font-medium truncate">' + esc(ch.name) + '</div>' +
+    '<div class="text-[9px] text-slate-500 uppercase">' + esc(ch.category) + '</div></div>' +
+    '<span class="text-[10px] font-black shrink-0 ' + (isLive ? 'text-emerald-400' : 'text-rose-400') + '">' + (isLive ? '● LIVE' : '● DEAD') + '</span>' +
+    '</div>';
+  
+  if (el) {
+    el.innerHTML = html;
+  } else {
+    var wrap = document.createElement('div');
+    wrap.id = 'health-result-' + index;
+    wrap.innerHTML = html;
+    container.appendChild(wrap);
+  }
 }
 
 /* ==================== BOOT ==================== */
@@ -1853,7 +1781,6 @@ window.addEventListener('DOMContentLoaded',async function(){
       await Promise.race([loadPlaylistData(),new Promise(r=>setTimeout(()=>r(false),2500))]);
     }
   }catch(e){}
-  sanitizeAllUrls();
   clearTimeout(forceHide);hideSplash();
   if(state.channels.length>0 && state.currentIndex === -1)playChannel(state.channels[0],0);
   setTimeout(()=>{if(video.paused&&video.readyState<2&&state.channels.length>0)retryCurrentChannel()},7000);
@@ -1865,26 +1792,28 @@ window.addEventListener('DOMContentLoaded',async function(){
 var _exitPending = false;
 history.pushState({page:'home'},'',location.href);
 window.addEventListener('popstate',function(e){
-  var cm=document.getElementById('customConfirmModal'),am=document.getElementById('customAlertModal');
-  var pm=document.getElementById('playlistManagerModal'),sm=document.getElementById('sourceManagerModal');
-  var acm=document.getElementById('addChannelModal'),adm=document.getElementById('adminPanelModal');
-  var bcm=document.getElementById('browseChannelsModal');
-  var pim=document.getElementById('pinAuthModal');
+  var ids=['customConfirmModal','customAlertModal','editStreamModal','channelContextMenu','pinAuthModal'];
+  for(var i=0;i<ids.length;i++){
+    var el=document.getElementById(ids[i]);
+    if(el&&!el.classList.contains('hidden')){
+      el.classList.add('hidden');
+      if(ids[i]==='customConfirmModal')confirmCallback=null;
+      history.pushState({page:'home'},'',location.href);return;
+    }
+  }
+  if(document.getElementById('browseChannelsModal').classList.contains('show')){closeBrowseModal();history.pushState({page:'home'},'',location.href);return}
   var clm=document.getElementById('channelListModal');
-  var ecm=document.getElementById('editStreamModal');
-  var ccm=document.getElementById('channelContextMenu');
-  
-  if(!cm.classList.contains('hidden')){cm.classList.add('hidden');confirmCallback=null;history.pushState({page:'home'},'',location.href);return}
-  if(!am.classList.contains('hidden')){am.classList.add('hidden');history.pushState({page:'home'},'',location.href);return}
-  if(!ecm.classList.contains('hidden')){ecm.classList.add('hidden');history.pushState({page:'home'},'',location.href);return}
-  if(!ccm.classList.contains('hidden')){ccm.classList.add('hidden');history.pushState({page:'home'},'',location.href);return}
-  if(!pim.classList.contains('hidden')){pim.classList.add('hidden');history.pushState({page:'home'},'',location.href);return}
-  if(bcm.classList.contains('show')){closeBrowseModal();history.pushState({page:'home'},'',location.href);return}
-  if(!clm.classList.contains('hidden')){toggleChannelList();history.pushState({page:'home'},'',location.href);return}
-  if(!pm.classList.contains('hidden')){pm.classList.add('hidden');adm.classList.remove('hidden');history.pushState({page:'home'},'',location.href);return}
-  if(!sm.classList.contains('hidden')){sm.classList.add('hidden');adm.classList.remove('hidden');history.pushState({page:'home'},'',location.href);return}
-  if(!acm.classList.contains('hidden')){acm.classList.add('hidden');adm.classList.remove('hidden');history.pushState({page:'home'},'',location.href);return}
-  if(!adm.classList.contains('hidden')){adm.classList.add('hidden');history.pushState({page:'home'},'',location.href);return}
+  if(clm&&!clm.classList.contains('hidden')){toggleChannelList();history.pushState({page:'home'},'',location.href);return}
+  var hc=document.getElementById('healthCheckerModal');
+  if(hc&&!hc.classList.contains('hidden')){closeHealthChecker();history.pushState({page:'home'},'',location.href);return}
+  var pm=document.getElementById('playlistManagerModal');
+  if(pm&&!pm.classList.contains('hidden')){pm.classList.add('hidden');document.getElementById('adminPanelModal').classList.remove('hidden');history.pushState({page:'home'},'',location.href);return}
+  var sm=document.getElementById('sourceManagerModal');
+  if(sm&&!sm.classList.contains('hidden')){sm.classList.add('hidden');document.getElementById('adminPanelModal').classList.remove('hidden');history.pushState({page:'home'},'',location.href);return}
+  var acm=document.getElementById('addChannelModal');
+  if(acm&&!acm.classList.contains('hidden')){acm.classList.add('hidden');document.getElementById('adminPanelModal').classList.remove('hidden');history.pushState({page:'home'},'',location.href);return}
+  var adm=document.getElementById('adminPanelModal');
+  if(adm&&!adm.classList.contains('hidden')){adm.classList.add('hidden');history.pushState({page:'home'},'',location.href);return}
   
   history.pushState({page:'home'},'',location.href);
   if(_exitPending) return;
@@ -1892,14 +1821,11 @@ window.addEventListener('popstate',function(e){
   showConfirm("অ্যাপ বন্ধ করবেন?", "আপনি কি অ্যাপ থেকে বের হতে চান?", function(){
     _exitPending = false;
     try {
-      if (window.navigator && window.navigator.app && window.navigator.app.exitApp) {
-        window.navigator.app.exitApp();
-      } else if (window.close) {
-        window.close();
-      }
+      if (window.navigator && window.navigator.app && window.navigator.app.exitApp) window.navigator.app.exitApp();
+      else if (window.close) window.close();
     } catch(err) {}
   });
 });
 </script>
 </body>
-  </html>
+                                                           </html>
