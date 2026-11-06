@@ -6,6 +6,14 @@
 <title>Pro TV - প্রো টিভি</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20192%20192%22%3E%3Cdefs%3E%3ClinearGradient%20id%3D%22g%22%20x1%3D%220%22%20y1%3D%220%22%20x2%3D%221%22%20y2%3D%221%22%3E%3Cstop%20offset%3D%220%22%20stop-color%3D%22%232563eb%22%2F%3E%3Cstop%20offset%3D%221%22%20stop-color%3D%22%2306b6d4%22%2F%3E%3C%2FlinearGradient%3E%3C%2Fdefs%3E%3Crect%20width%3D%22192%22%20height%3D%22192%22%20rx%3D%2242%22%20fill%3D%22url(%23g)%22%2F%3E%3Crect%20x%3D%2236%22%20y%3D%2260%22%20width%3D%22120%22%20height%3D%2284%22%20rx%3D%2212%22%20fill%3D%22%230b0f19%22%20stroke%3D%22white%22%20stroke-width%3D%226%22%2F%3E%3Cpolygon%20points%3D%2284%2C90%2084%2C114%20108%2C102%22%20fill%3D%22white%22%2F%3E%3Crect%20x%3D%2272%22%20y%3D%22152%22%20width%3D%2248%22%20height%3D%228%22%20rx%3D%224%22%20fill%3D%22white%22%2F%3E%3C%2Fsvg%3E">
 <meta name="theme-color" content="#2563eb">
+<script>
+// Tailwind CDN warning suppress
+const origWarn = console.warn;
+console.warn = function(...args) {
+  if (args[0] && String(args[0]).includes('cdn.tailwindcss.com should not be used in production')) return;
+  origWarn.apply(console, args);
+};
+</script>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
@@ -73,9 +81,8 @@ video::-webkit-media-controls{display:none!important}video::-webkit-media-contro
 </div>
 
 <div id="playerOverlay" class="fixed inset-0 bg-black z-50 flex flex-col">
-  <!-- ✅ videoBlocker: tabindex for D-pad focus. onclick removed - using pointer events only -->
   <div id="videoBlocker" tabindex="0" style="pointer-events:auto;cursor:pointer;outline:none;" class="absolute inset-0 z-20 bg-black"></div>
-  <video id="tvVideoPlayer" style="width:100%;height:100%;object-fit:fill;" class="relative z-0 bg-black" crossorigin="anonymous" playsinline webkit-playsinline muted disablePictureInPicture></video>
+  <video id="tvVideoPlayer" style="width:100%;height:100%;object-fit:fill;" class="relative z-0 bg-black" playsinline webkit-playsinline muted disablePictureInPicture></video>
   
   <div id="noSignalScreen" class="hidden absolute inset-0 bg-black z-10 flex-col items-center justify-center pointer-events-none">
     <h1 class="text-3xl font-black tracking-[0.3em] text-slate-500 animate-pulse">NO SIGNAL</h1>
@@ -101,7 +108,6 @@ video::-webkit-media-controls{display:none!important}video::-webkit-media-contro
   </div>
 </div>
 
-<!-- LEFT SIDEBAR CHANNEL LIST -->
 <div id="channelListModal" class="fixed inset-0 bg-black/80 z-[60] hidden opacity-0 transition-opacity duration-300">
   <div id="channelListSheet" class="bg-[#0b0f19] w-[85vw] sm:w-96 max-w-md h-full border-r border-slate-700 flex flex-col transform -translate-x-full transition-transform duration-300 shadow-2xl">
     <div class="p-3 border-b border-slate-800 flex justify-between items-center shrink-0">
@@ -156,12 +162,12 @@ video::-webkit-media-controls{display:none!important}video::-webkit-media-contro
       <button onclick="openHealthChecker()" class="p-3 sm:p-5 rounded-2xl bg-gradient-to-br from-teal-500/20 to-green-500/10 border border-teal-500/40 hover:border-teal-400 text-left transition group col-span-2">
         <i class="fa-solid fa-heart-pulse text-xl sm:text-2xl text-teal-400 mb-1 sm:mb-2 group-hover:scale-110 transition"></i>
         <h4 class="text-xs sm:text-sm font-extrabold text-white">চ্যানেল হেলথ চেকার</h4>
-        <p class="text-[10px] sm:text-[11px] text-slate-400 mt-1">আসল স্ট্রিম টেস্ট করে LIVE / DEAD ডিটেক্ট করুন</p>
+        <p class="text-[10px] sm:text-[11px] text-slate-400 mt-1">আসল ভিডিও ডিকোড টেস্ট করে LIVE / DEAD</p>
       </button>
       <button onclick="manualSyncData()" class="p-3 sm:p-5 rounded-2xl bg-gradient-to-br from-amber-500/20 to-orange-500/10 border border-amber-500/40 hover:border-amber-400 text-left transition group col-span-2">
         <i class="fa-solid fa-cloud-arrow-up text-xl sm:text-2xl text-amber-400 mb-1 sm:mb-2 group-hover:scale-110 transition"></i>
         <h4 class="text-xs sm:text-sm font-extrabold text-white">গ্লোবাল সিঙ্ক (ফোর্স আপলোড)</h4>
-        <p class="text-[10px] sm:text-[11px] text-slate-400 mt-1">সব ইউজারের অ্যাপে ইনস্ট্যান্ট আপডেট পাঠান</p>
+        <p class="text-[10px] sm:text-[11px] text-slate-400 mt-1">সব ইউজারের অ্যাপে ইনস্ট্যান্ট আপডেট</p>
       </button>
       <button onclick="restoreFromCloud()" class="p-3 sm:p-5 rounded-2xl bg-gradient-to-br from-rose-500/20 to-red-500/10 border border-rose-500/40 hover:border-rose-400 text-left transition group col-span-2">
         <i class="fa-solid fa-cloud-arrow-down text-xl sm:text-2xl text-rose-400 mb-1 sm:mb-2 group-hover:scale-110 transition"></i>
@@ -188,6 +194,7 @@ video::-webkit-media-controls{display:none!important}video::-webkit-media-contro
     <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
       <div id="healthProgressBar" class="h-full bg-gradient-to-r from-teal-500 to-emerald-400" style="width:0%"></div>
     </div>
+    <p class="text-[10px] text-slate-500">ℹ️ প্রতিটি চ্যানেলে আসল ভিডিও ডিকোড হয় কিনা যাচাই করা হয়</p>
   </div>
   <div class="p-3 overflow-y-auto flex-1" style="touch-action:pan-y">
     <div class="max-w-3xl mx-auto space-y-1.5" id="healthResults"></div>
@@ -292,7 +299,7 @@ video::-webkit-media-controls{display:none!important}video::-webkit-media-contro
 <div id="channelContextMenu" class="fixed inset-0 bg-black/70 z-[200] flex items-center justify-center p-4 hidden" onclick="if(event.target===this)closeContextMenu()">
   <div class="bg-tvbg-900 border border-slate-700 w-full max-w-xs rounded-2xl p-5 shadow-2xl space-y-3 modal-active">
     <div class="flex items-center gap-3 pb-3 border-b border-slate-800">
-      <div class="w-10 h-10 rounded-full bg-slate-950 flex items-center justify-center p-1 shrink-0"><img id="ctxChannelLogo" src="" referrerpolicy="no-referrer" crossorigin="anonymous" class="w-full h-full object-contain" onerror="this.onerror=null;this.src='https://placehold.co/100x100/1e293b/ffffff?text=TV'"></div>
+      <div class="w-10 h-10 rounded-full bg-slate-950 flex items-center justify-center p-1 shrink-0"><img id="ctxChannelLogo" src="" referrerpolicy="no-referrer" class="w-full h-full object-contain" onerror="this.onerror=null;this.src='https://placehold.co/100x100/1e293b/ffffff?text=TV'"></div>
       <div class="min-w-0 flex-1"><h4 id="ctxChannelName" class="text-xs font-bold text-white truncate">চ্যানেল</h4><span id="ctxChannelCategory" class="text-[10px] text-slate-400 uppercase">ক্যাটাগরি</span></div>
     </div>
     <div class="space-y-2">
@@ -360,12 +367,19 @@ const SOURCES_KEY = 'protv_sources_v1';
 const LAST_SOURCE_KEY = 'protv_last_source_v1';
 const SRC_CH_PREFIX = 'protv_src_ch_';
 const URL_REFRESH_INTERVAL = 12 * 60 * 1000;
-const MAX_HEAL_ATTEMPTS = 2;
+
+// ✅ Reduced timeouts for faster load/fail
+const MAX_HEAL_ATTEMPTS = 1;
 const DTH_DISPLAY_MS = 2000;
 const CONTROLS_AUTO_HIDE_MS = 5000;
 const USER_STALE_MS = 24 * 60 * 60 * 1000;
-const NOSIGNAL_TIMEOUT_MS = 8000;
-const OK_HOLD_MS = 2000;
+const NOSIGNAL_TIMEOUT_MS = 2500;       // ✅ 2.5s black screen timeout
+const NOSIGNAL_TIMEOUT_TOFFEE = 2500;
+const MANIFEST_TIMEOUT = 4000;          // ✅ 4s
+const FRAG_TIMEOUT = 4000;
+const SOURCE_FETCH_TIMEOUT = 5000;
+const TOFFEE_SOURCE_TIMEOUT = 3500;
+const NUMPAD_BUFFER_MS = 800;
 
 const state = {
   channels:[], currentIndex:-1, isAdmin:false, hls:null, currentAttemptProxyIdx:0,
@@ -388,6 +402,16 @@ const refreshToast=document.getElementById('refreshToast');
 const unsyncBadge=document.getElementById('unsyncBadge');
 let noSignalTimer=null, dthTimer=null;
 
+/* ==================== FOCUS HELPER ==================== */
+function ensureFocus(){
+  try{
+    var ae = document.activeElement;
+    var isInput = ae && (ae.tagName === 'INPUT' || ae.tagName === 'TEXTAREA' || ae.isContentEditable);
+    if (isInput) return;
+    if (videoBlocker) videoBlocker.focus({preventScroll:true});
+  }catch(e){}
+}
+
 /* ==================== MODALS ==================== */
 let confirmCallback = null;
 function showConfirm(title, msg, callback) {
@@ -400,10 +424,12 @@ document.getElementById('customConfirmOkBtn').onclick = function() {
   document.getElementById('customConfirmModal').classList.add('hidden');
   var cb = confirmCallback; confirmCallback = null;
   if(cb) cb();
+  setTimeout(ensureFocus, 50);
 };
 document.getElementById('customConfirmCancelBtn').onclick = function() {
   document.getElementById('customConfirmModal').classList.add('hidden');
   confirmCallback = null;
+  setTimeout(ensureFocus, 50);
 };
 function showAlert(msg, title) {
   document.getElementById('customAlertTitle').textContent = title || "Notice";
@@ -411,6 +437,9 @@ function showAlert(msg, title) {
   document.getElementById('customAlertModal').classList.remove('hidden');
 }
 function setUnsynced(v) { if (unsyncBadge) { if (v) unsyncBadge.classList.add('show'); else unsyncBadge.classList.remove('show'); } }
+
+/* ==================== VOLUME ==================== */
+function applyVolume() { video.volume = state.volume; }
 
 /* ==================== HEARTBEAT ==================== */
 const sessionId = 'user_' + Math.random().toString(36).substr(2, 9);
@@ -436,95 +465,6 @@ function checkOnlineUsers() {
     for (var k in data) if (data[k] && data[k].lastSeen && (now - data[k].lastSeen < 65000)) count++;
     showAlert('📡 এই মুহূর্তে অ্যাপটি চালু আছে: ' + count + ' জন ইউজার', "Online Users");
   }).catch(()=>showAlert('ইউজার ডেটা লোড করতে সমস্যা হচ্ছে।'));
-}
-
-/* ==================== AUDIO + AGC ==================== */
-var audioCtx=null, audioSource=null, audioCompressor=null, agcGain=null, masterGain=null, analyser=null, agcBuffer=null, agcInterval=null, audioInitialized=false;
-var AGC_TARGET_RMS = 0.10;
-var AGC_MAX_GAIN = 4.0;
-var AGC_MIN_GAIN = 0.30;
-var AGC_LERP = 0.04;
-
-function applyVolume() {
-  if (audioInitialized && masterGain && audioCtx) {
-    video.volume = 1.0;
-    masterGain.gain.value = state.volume;
-  } else {
-    video.volume = state.volume;
-  }
-}
-
-function setupAudioNormalization(){
-  if(audioInitialized){
-    if(audioCtx && audioCtx.state==='suspended') audioCtx.resume();
-    return;
-  }
-  document.addEventListener('click',initAudioContext,{once:true});
-  document.addEventListener('touchstart',initAudioContext,{once:true});
-  document.addEventListener('keydown', initAudioContext, {once:true});
-}
-
-function initAudioContext(){
-  if(audioInitialized)return;
-  try{
-    var AC=window.AudioContext||window.webkitAudioContext;
-    audioCtx=new AC();
-    audioSource=audioCtx.createMediaElementSource(video);
-
-    audioCompressor=audioCtx.createDynamicsCompressor();
-    audioCompressor.threshold.value = -12;
-    audioCompressor.knee.value = 8;
-    audioCompressor.ratio.value = 8;
-    audioCompressor.attack.value = 0.003;
-    audioCompressor.release.value = 0.15;
-
-    agcGain = audioCtx.createGain();
-    agcGain.gain.value = 1.0;
-
-    analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 2048;
-    agcBuffer = new Float32Array(analyser.fftSize);
-
-    masterGain = audioCtx.createGain();
-    masterGain.gain.value = state.volume;
-
-    audioSource.connect(audioCompressor);
-    audioCompressor.connect(agcGain);
-    agcGain.connect(analyser);
-    analyser.connect(masterGain);
-    masterGain.connect(audioCtx.destination);
-
-    audioInitialized = true;
-    video.volume = 1.0;
-    video.muted = false;
-
-    if (audioCtx.state === 'suspended') audioCtx.resume();
-
-    if (agcInterval) clearInterval(agcInterval);
-    agcInterval = setInterval(runAGC, 120);
-  }catch(e){ console.warn('Audio init failed', e); }
-}
-
-function runAGC() {
-  if (!analyser || !agcGain || !audioCtx) return;
-  if (video.paused || video.ended) return;
-  if (audioCtx.state !== 'running') return;
-  try {
-    analyser.getFloatTimeDomainData(agcBuffer);
-    var sum = 0;
-    for (var i=0;i<agcBuffer.length;i++) sum += agcBuffer[i]*agcBuffer[i];
-    var rms = Math.sqrt(sum/agcBuffer.length);
-    if (rms < 0.0015) return;
-    var desired = AGC_TARGET_RMS / rms;
-    if (desired > AGC_MAX_GAIN) desired = AGC_MAX_GAIN;
-    if (desired < AGC_MIN_GAIN) desired = AGC_MIN_GAIN;
-    var cur = agcGain.gain.value;
-    agcGain.gain.value = cur + (desired - cur) * AGC_LERP;
-  } catch(e) {}
-}
-
-function resetAGC() {
-  if (agcGain) agcGain.gain.value = 1.0;
 }
 
 /* ==================== SECRET ADMIN ==================== */
@@ -555,7 +495,6 @@ function findBestMatch(parsedList,searchName){
   var sLower=searchName.toLowerCase().trim(),sNorm=normalizeName(searchName); if(!sLower)return null;
   var match=parsedList.find(p=>p.name.toLowerCase().trim()===sLower); if(match)return match;
   match=parsedList.find(p=>normalizeName(p.name)===sNorm); if(match)return match;
-  try{var escaped=sLower.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');var re=new RegExp('(^|[^a-z0-9])'+escaped+'([^a-z0-9]|$)','i');var c=parsedList.filter(p=>re.test(p.name));if(c.length>0){c.sort((a,b)=>a.name.length-b.name.length);return c[0]}}catch(e){}
   return null;
 }
 
@@ -567,84 +506,111 @@ function fetchWithTimeout(url,timeoutMs){
     fetch(url,{cache:'no-cache'}).then(r=>{clearTimeout(t);if(r.ok)return r.text();reject(new Error('http'))}).then(x=>resolve(x)).catch(e=>{clearTimeout(t);reject(e)});
   });
 }
-
 async function isStreamValid(url){
   if(!url) return false;
   if(/\.(mp4|ts|mpd|m3u8)(\?|$)/i.test(url)) return true;
   try{
-    var ps=FAST_PROXIES.map(p=>fetchWithTimeout(p+encodeURIComponent(url),8000));
-    ps.push(fetchWithTimeout(url,6000));
+    var ps=FAST_PROXIES.map(p=>fetchWithTimeout(p+encodeURIComponent(url),5000));
+    ps.push(fetchWithTimeout(url,4000));
     var text=await Promise.any(ps);
     if(text && (text.indexOf('#EXTM3U')!==-1 || text.indexOf('#EXT-X-')!==-1 || text.indexOf('#EXTINF')!==-1 || text.length>50)) return true;
   }catch(e){}
   return false;
 }
 
-function testStreamPlayable(url) {
-  if (!url) return Promise.resolve(false);
-  var isHls = url.indexOf('.m3u8') !== -1 || url.indexOf('m3u8') !== -1 || url.indexOf('edge-cache-token') !== -1;
-  if (isHls) {
-    if (Hls.isSupported()) return testHlsStream(url);
-    if (video.canPlayType('application/vnd.apple.mpegurl')) return testNativeHls(url);
-    return Promise.resolve(false);
+/* ==================== HEALTH CHECKER — REAL VIDEO DECODE TEST ==================== */
+async function testChannelReal(url) {
+  if (!url) return {live: false, method: ''};
+  
+  var isHls = /\.m3u8|m3u8|edge-cache-token/i.test(url);
+  
+  if (isHls && Hls.isSupported()) {
+    var r = await testHlsWithVideo(url);
+    if (r) return {live: true, method: 'HLS'};
   }
-  return fetchWithTimeout(url, 6000).then(()=>true).catch(()=>false);
+  
+  var nativeResult = await testNativeVideoPlayable(url, isHls);
+  if (nativeResult) return {live: true, method: 'Native'};
+  
+  if (!isHls) {
+    try { await fetchWithTimeout(url, 5000); return {live: true, method: 'HTTP'}; } catch(e) {}
+  }
+  
+  return {live: false, method: ''};
 }
 
-function testHlsStream(url) {
+function testHlsWithVideo(url) {
   return new Promise(function(resolve) {
+    var v = document.createElement('video');
+    v.muted = true; v.playsInline = true;
+    v.style.cssText = 'position:fixed;left:-9999px;width:2px;height:2px;pointer-events:none;';
+    document.body.appendChild(v);
+    
     var hls = new Hls({
-      enableWorker: false,
-      lowLatencyMode: false,
-      manifestLoadingTimeOut: 8000,
-      fragLoadingTimeOut: 8000,
-      manifestLoadingMaxRetry: 0,
-      fragLoadingMaxRetry: 0,
-      manifestLoadingRetryDelay: 500,
-      fragLoadingRetryDelay: 500,
-      startLevel: 0,
-      testBandwidth: false,
-      autoStartLoad: true
+      enableWorker: false, lowLatencyMode: false,
+      manifestLoadingTimeOut: 8000, fragLoadingTimeOut: 8000,
+      manifestLoadingMaxRetry: 0, fragLoadingMaxRetry: 0,
+      startLevel: 0, testBandwidth: false, autoStartLoad: true
     });
+    
     var resolved = false;
-    var timeout = setTimeout(function(){ finish(false); }, 12000);
-    function finish(result) {
+    var t = setTimeout(function(){ finish(false); }, 14000);
+    
+    function finish(r) {
       if (resolved) return;
       resolved = true;
-      clearTimeout(timeout);
-      try { hls.destroy(); } catch(e) {}
-      resolve(result);
+      clearTimeout(t);
+      try { hls.destroy(); } catch(e){}
+      try { v.pause(); v.removeAttribute('src'); v.load(); v.remove(); } catch(e){}
+      resolve(r);
     }
-    hls.on(Hls.Events.FRAG_LOADED, function(){ finish(true); });
+    
+    v.addEventListener('timeupdate', function() {
+      if (v.currentTime > 0.3 && v.videoWidth > 0) finish(true);
+    });
+    v.addEventListener('error', function(){ finish(false); });
+    
     hls.on(Hls.Events.ERROR, function(e, data){ if (data.fatal) finish(false); });
-    try { hls.loadSource(url); } catch(e) { finish(false); }
+    hls.on(Hls.Events.MANIFEST_PARSED, function(){
+      v.play().catch(function(){});
+    });
+    
+    try { hls.attachMedia(v); hls.loadSource(url); } catch(e) { finish(false); }
   });
 }
 
-function testNativeHls(url) {
+function testNativeVideoPlayable(url, isHls) {
   return new Promise(function(resolve) {
-    var testVideo = document.createElement('video');
-    testVideo.muted = true;
-    testVideo.preload = 'auto';
-    testVideo.style.cssText = 'position:fixed;left:-9999px;width:1px;height:1px;';
-    document.body.appendChild(testVideo);
+    if (isHls && !document.createElement('video').canPlayType('application/vnd.apple.mpegurl')) {
+      return resolve(false);
+    }
+    var v = document.createElement('video');
+    v.muted = true; v.playsInline = true; v.preload = 'auto';
+    v.style.cssText = 'position:fixed;left:-9999px;width:2px;height:2px;pointer-events:none;';
+    document.body.appendChild(v);
+    
     var resolved = false;
-    var timeout = setTimeout(function(){ finish(false); }, 9000);
-    function finish(result) {
+    var t = setTimeout(function(){ finish(false); }, 10000);
+    
+    function finish(r) {
       if (resolved) return;
       resolved = true;
-      clearTimeout(timeout);
-      try { testVideo.pause(); testVideo.removeAttribute('src'); testVideo.load(); } catch(e) {}
-      try { testVideo.remove(); } catch(e) {}
-      resolve(result);
+      clearTimeout(t);
+      try { v.pause(); v.removeAttribute('src'); v.load(); v.remove(); } catch(e){}
+      resolve(r);
     }
-    testVideo.oncanplay = function(){ finish(true); };
-    testVideo.onerror = function(){ finish(false); };
-    testVideo.src = url;
-    testVideo.load();
+    
+    v.addEventListener('timeupdate', function() {
+      if (v.currentTime > 0.3 && v.videoWidth > 0) finish(true);
+    });
+    v.addEventListener('error', function(){ finish(false); });
+    
+    v.src = url;
+    v.play().catch(function(){});
   });
 }
 
+/* ==================== XTREAM & FETCH ==================== */
 async function fetchXtreamChannels(src){
   var base=src.server.replace(/\/$/,'');
   var apiUrl=base+'/player_api.php?username='+encodeURIComponent(src.user)+'&password='+encodeURIComponent(src.pass)+'&action=get_live_streams';
@@ -661,11 +627,10 @@ async function fetchXtreamChannels(src){
     return data.map(ch=>({id:ch.stream_id.toString(),name:ch.name,logo:ch.stream_icon||'',category:ch.category_name?ch.category_name.toUpperCase():'LIVE',url:base+'/live/'+encodeURIComponent(src.user)+'/'+encodeURIComponent(src.pass)+'/'+ch.stream_id+'.m3u8'}))
   }catch(e){ return []; }
 }
-
 async function fetchChannelsFromSource(source,forceRefresh,isBackground){
   if(!source)return[];
   if(!forceRefresh && source.channels && source.channels.length>0) return source.channels;
-  var timeoutMs = isBackground ? 5000 : 8000;
+  var timeoutMs = isBackground ? 4000 : SOURCE_FETCH_TIMEOUT;
   var parsed=[];
   try {
     if(source.type==='xtream') parsed=await fetchXtreamChannels(source);
@@ -686,6 +651,22 @@ async function fetchChannelsFromSource(source,forceRefresh,isBackground){
   if(parsed.length===0 && source.channels && source.channels.length>0) return source.channels;
   if(parsed.length>0){source._freshCache=parsed;source._lastFetch=Date.now()}
   return parsed;
+}
+async function fetchChannelsFromSourceFast(source, timeoutMs){
+  if(!source) return [];
+  var text=null;
+  try {
+    if (source.url && source.url.indexOf('http')===0) {
+      try { text = await fetchWithTimeout(source.url, timeoutMs); } catch(e){}
+      if (!text || text.indexOf('#EXTINF')===-1) {
+        for (var i=0; i<FAST_PROXIES.length && (!text || text.indexOf('#EXTINF')===-1); i++) {
+          try { text = await fetchWithTimeout(FAST_PROXIES[i]+encodeURIComponent(source.url), timeoutMs); } catch(e){}
+        }
+      }
+    }
+  } catch(e){}
+  if (text && text.indexOf('#EXTINF')!==-1) return parseM3U(text);
+  return [];
 }
 
 /* ==================== URL CLEANUP ==================== */
@@ -724,7 +705,7 @@ async function attemptAutoHeal(ch, targetIndex, sessionId){
   if (state.currentIndex !== targetIndex) return false;
   if (state.playSessionId !== sessionId) return false;
   state.healingInProgress = true;
-  var isToffee = ch.url && ch.url.indexOf('edge-cache-token') !== -1;
+  var isToffee = isToffeeUrl(ch.url);
   try {
     if (!isToffee) {
       for (let src of state.sources) {
@@ -746,7 +727,12 @@ async function attemptAutoHeal(ch, targetIndex, sessionId){
     for (let src of sourcesToCheck) {
       if (state.playSessionId !== sessionId) return false;
       try {
-        let parsed = await fetchChannelsFromSource(src, true, !isToffee ? true : false);
+        let parsed;
+        if (isToffee) {
+          parsed = await fetchChannelsFromSourceFast(src, TOFFEE_SOURCE_TIMEOUT);
+        } else {
+          parsed = await fetchChannelsFromSource(src, true, true);
+        }
         if (state.playSessionId !== sessionId) return false;
         let match = parsed.find(p => normalizeName(p.name) === normalizeName(ch.name));
         if (match && match.url) {
@@ -1044,7 +1030,7 @@ function renderBrowseList() {
     var isAdded = addedNames.has(normalizeName(ch.name));
     var btnClass = isAdded ? 'bg-slate-700 text-slate-400 cursor-not-allowed' : 'bg-cyan-600 hover:bg-cyan-500 text-white cursor-pointer';
     var btnText = isAdded ? '<i class="fa-solid fa-check"></i> Added' : '<i class="fa-solid fa-plus"></i> Add';
-    row.innerHTML = '<div class="w-10 h-8 bg-slate-950 rounded flex items-center justify-center shrink-0 overflow-hidden pointer-events-none"><img src="'+esc(ch.logo||'https://placehold.co/40x30/000/fff?text=TV')+'" class="max-h-full max-w-full object-contain" referrerpolicy="no-referrer" crossorigin="anonymous"></div><div class="min-w-0 flex-1 pointer-events-none"><div class="text-xs font-bold text-white truncate">'+esc(ch.name)+'</div><div class="text-[9px] text-brand-accent uppercase">'+esc(ch.category)+'</div></div><button class="px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all '+btnClass+'">'+btnText+'</button>';
+    row.innerHTML = '<div class="w-10 h-8 bg-slate-950 rounded flex items-center justify-center shrink-0 overflow-hidden pointer-events-none"><img src="'+esc(ch.logo||'https://placehold.co/40x30/000/fff?text=TV')+'" class="max-h-full max-w-full object-contain" referrerpolicy="no-referrer"></div><div class="min-w-0 flex-1 pointer-events-none"><div class="text-xs font-bold text-white truncate">'+esc(ch.name)+'</div><div class="text-[9px] text-brand-accent uppercase">'+esc(ch.category)+'</div></div><button class="px-3 py-1.5 rounded-lg text-[10px] font-bold transition-all '+btnClass+'">'+btnText+'</button>';
     var btn = row.querySelector('button');
     btn.onclick = () => quickAddChannel(realIdx, btn);
     frag.appendChild(row);
@@ -1163,7 +1149,7 @@ async function loadPlaylistData(forceRefresh){
   if (state.currentIndex === -1 && state.channels.length > 0) playChannel(state.channels[0], 0);
 }
 
-/* ==================== RENDER (LEFT SIDEBAR) ==================== */
+/* ==================== RENDER LIST ==================== */
 function renderList(){
   var searchEl=document.getElementById('listSearch');
   var q=(searchEl?searchEl.value:'').toLowerCase().trim();
@@ -1180,9 +1166,10 @@ function renderList(){
     var isActive = realIndex === state.currentIndex;
     var item=document.createElement('div');
     item.className='list-channel-row flex items-center gap-2.5 px-3 py-2 cursor-pointer' + (isActive?' active-ch':'');
+    item.dataset.index = realIndex;
     item.innerHTML =
       '<div class="w-10 h-8 bg-slate-950 rounded flex items-center justify-center shrink-0 overflow-hidden">' +
-        '<img src="'+esc(ch.logo||'https://placehold.co/40x30/000/fff?text=TV')+'" class="max-h-full max-w-full object-contain" referrerpolicy="no-referrer" crossorigin="anonymous" onerror="this.onerror=null;this.src=\'https://placehold.co/40x30/000/fff?text=TV\'">' +
+        '<img src="'+esc(ch.logo||'https://placehold.co/40x30/000/fff?text=TV')+'" class="max-h-full max-w-full object-contain" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=\'https://placehold.co/40x30/000/fff?text=TV\'">' +
       '</div>' +
       '<div class="min-w-0 flex-1">' +
         '<div class="text-xs font-bold text-white truncate">'+esc(ch.name)+'</div>' +
@@ -1194,27 +1181,36 @@ function renderList(){
   });
   grid.appendChild(frag);
 }
-
+function refreshListHighlight(){
+  var items = document.querySelectorAll('#listGrid > div');
+  items.forEach(function(el){
+    var idx = parseInt(el.dataset.index, 10);
+    if (idx === state.currentIndex) el.classList.add('active-ch');
+    else el.classList.remove('active-ch');
+  });
+}
 function toggleChannelList(){
   var modal=document.getElementById('channelListModal');
   var sheet=document.getElementById('channelListSheet');
   if(modal.classList.contains('hidden')){
+    renderList();
     modal.classList.remove('hidden');
     setTimeout(()=>{ modal.classList.remove('opacity-0'); sheet.classList.remove('-translate-x-full'); },10);
     var visItems = document.querySelectorAll('#listGrid > div');
     var focusIdx = 0;
     if(state.currentIndex >= 0 && !document.getElementById('listSearch').value.trim()) {
-      focusIdx = Math.min(state.currentIndex, visItems.length - 1);
+      for (var i = 0; i < visItems.length; i++) {
+        if (parseInt(visItems[i].dataset.index, 10) === state.currentIndex) { focusIdx = i; break; }
+      }
     }
-    state.listFocusIndex = Math.max(0, focusIdx);
+    state.listFocusIndex = Math.max(0, Math.min(focusIdx, visItems.length - 1));
     setTimeout(updateListFocus, 120);
   } else {
     modal.classList.add('opacity-0');
     sheet.classList.add('-translate-x-full');
-    setTimeout(()=>modal.classList.add('hidden'),300);
+    setTimeout(()=>{ modal.classList.add('hidden'); ensureFocus(); },300);
   }
 }
-
 function updateListFocus() {
   var items = document.querySelectorAll('#listGrid > div');
   if (!items || items.length === 0) return;
@@ -1224,22 +1220,15 @@ function updateListFocus() {
   var activeEl = items[state.listFocusIndex];
   if (activeEl) { activeEl.classList.add('tv-focus'); activeEl.scrollIntoView({ block: 'nearest' }); }
 }
-
 var _lSearch=document.getElementById('listSearch');
 if(_lSearch) _lSearch.addEventListener('input', function(){ state.listFocusIndex = 0; renderList(); });
 
-/* ==================== PLAYER (TOFFEE HEADERS FIX) ==================== */
+/* ==================== PLAYER ==================== */
 let mediaRecoveryAttempts = 0;
 function isVideoActuallyPlaying(){ return !video.paused && video.readyState >= 2 && video.currentTime > 0.3; }
-
-// ✅ Toffee stream headers — some CDNs require Referer/Origin
-function getStreamHeaders(url) {
-  var headers = {};
-  if (url.indexOf('toffee') !== -1 || url.indexOf('edge-cache-token') !== -1) {
-    headers['Referer'] = 'https://toffee.live/';
-    headers['Origin'] = 'https://toffee.live';
-  }
-  return headers;
+function isToffeeUrl(url) {
+  if (!url) return false;
+  return url.indexOf('edge-cache-token') !== -1 || url.indexOf('toffeelive') !== -1 || url.indexOf('toffee') !== -1;
 }
 
 function initHLS(sessionId){
@@ -1257,23 +1246,20 @@ function initHLS(sessionId){
   video.removeAttribute('src');
   video.load();
 
-  var currentUrl = state.channels[state.currentIndex] ? state.channels[state.currentIndex].url : '';
-  var extraHeaders = getStreamHeaders(currentUrl);
-
   state.hls=new Hls({
-    enableWorker:false, lowLatencyMode:false,
-    maxBufferLength:15, maxMaxBufferLength:30,
-    manifestLoadingTimeOut:10000, fragLoadingTimeOut:10000,
-    manifestLoadingMaxRetry:2, fragLoadingMaxRetry:2,
-    startLevel:-1, capLevelToPlayerSize:true, startFragPrefetch:true,
-    abrEwmaDefaultEstimate:800000,
-    xhrSetup:function(xhr){
-      xhr.withCredentials=false;
-      // ✅ Apply Toffee headers
-      for (var k in extraHeaders) {
-        try { xhr.setRequestHeader(k, extraHeaders[k]); } catch(e) {}
-      }
-    }
+    enableWorker: true,         // ✅ Use worker for faster parsing
+    lowLatencyMode: true,       // ✅ Low latency mode
+    maxBufferLength: 10,
+    maxMaxBufferLength: 20,
+    manifestLoadingTimeOut: MANIFEST_TIMEOUT,  // 4s
+    fragLoadingTimeOut: FRAG_TIMEOUT,          // 4s
+    manifestLoadingMaxRetry: 1,
+    fragLoadingMaxRetry: 1,
+    startLevel: -1, 
+    capLevelToPlayerSize: true, 
+    startFragPrefetch: true,
+    abrEwmaDefaultEstimate: 500000,
+    xhrSetup:function(xhr){ xhr.withCredentials=false; }
   });
   state.hls.attachMedia(video);
 
@@ -1285,21 +1271,31 @@ function initHLS(sessionId){
     clearTimeout(noSignalTimer);
     noSignalScreen.classList.add('hidden');
     noSignalScreen.classList.remove('flex');
-    playVideoSafely();
+    video.muted = true; applyVolume();
+    video.play().then(function(){
+      setTimeout(function(){ video.muted = false; applyVolume(); }, 300);
+    }).catch(function(){
+      video.muted = false; applyVolume();
+      video.play().catch(function(){});
+    });
   });
 
   state.hls.on(Hls.Events.ERROR,async function(e,data){
     if (state.playSessionId !== localSession) return;
     if(!data.fatal)return;
     var ch = state.channels[state.currentIndex];
-    var isToffee = ch && ch.url.indexOf('edge-cache-token') !== -1;
+    var isToffee = ch && isToffeeUrl(ch.url);
     if(data.type===Hls.ErrorTypes.MEDIA_ERROR){
       if(mediaRecoveryAttempts < 1){ mediaRecoveryAttempts++; state.hls.recoverMediaError(); }
       else handleStreamPlaybackError();
       return;
     }
     if(data.type===Hls.ErrorTypes.NETWORK_ERROR){
-      if (ch && !state.healingInProgress) {
+      if (ch && isToffee) {
+        var nativeOk = await tryNativePlayback(ch.url, true);
+        if (nativeOk) return;
+      }
+      if (ch && !state.healingInProgress && !isToffee) {
         var healKey = normalizeName(ch.name);
         state.channelHealAttempts[healKey] = (state.channelHealAttempts[healKey] || 0) + 1;
         if (state.channelHealAttempts[healKey] <= MAX_HEAL_ATTEMPTS) {
@@ -1309,17 +1305,8 @@ function initHLS(sessionId){
       }
       if(state.currentAttemptProxyIdx < FAST_PROXIES.length && ch && !isToffee){
         state.currentAttemptProxyIdx++;
-        if(ch)loadStreamSource(ch.url, false, state.playSessionId);
-        else handleStreamPlaybackError();
+        loadStreamSource(ch.url, false, state.playSessionId);
         return;
-      }
-      if (ch) {
-        var canPlayNativeHls = video.canPlayType('application/vnd.apple.mpegurl') !== '';
-        var urlIsHls = ch.url.indexOf('.m3u8') !== -1;
-        if (!urlIsHls || canPlayNativeHls) {
-          var nativeOk = await tryNativePlayback(ch.url, !isToffee);
-          if (nativeOk) return;
-        }
       }
       handleStreamPlaybackError();
       return;
@@ -1328,31 +1315,10 @@ function initHLS(sessionId){
   });
 }
 
-function playVideoSafely(){
-  if (audioInitialized) {
-    video.muted = false;
-    applyVolume();
-    video.play().catch(function(){});
-  } else {
-    video.muted = true;
-    applyVolume();
-    video.play().then(function(){
-      setTimeout(function(){
-        video.muted = false;
-        applyVolume();
-      },500);
-    }).catch(function(){
-      video.muted = false;
-      applyVolume();
-      video.play().catch(function(){});
-    });
-  }
-}
-
 async function tryNativePlayback(url,removeCors){
   return new Promise(resolve=>{
     try{
-      if(state.hls){try{state.hls.destroy()}catch(e){}state.hls=null}
+      if(state.hls){try{state.hls.stopLoad(); state.hls.destroy();}catch(e){}state.hls=null}
       state.usingNativePlayer=true;
       noSignalScreen.classList.add('hidden');
       var hadCors=video.hasAttribute('crossorigin');
@@ -1361,19 +1327,23 @@ async function tryNativePlayback(url,removeCors){
       var resolved=false;
       var timer=setTimeout(()=>{
         if(resolved)return;resolved=true;
-        video.oncanplay=null;video.onerror=null;
-        if(removeCors&&hadCors)video.setAttribute('crossorigin','anonymous');
+        video.oncanplay=null;video.onerror=null;video.onplaying=null;
         resolve(false);
       },5000);
-      video.oncanplay=function(){
+      var successFn = function(){
         if(resolved)return;resolved=true;
-        clearTimeout(timer);video.oncanplay=null;video.onerror=null;
-        playVideoSafely();
-        setTimeout(()=>resolve(true),300);
+        clearTimeout(timer);video.oncanplay=null;video.onerror=null;video.onplaying=null;
+        video.muted = true; applyVolume();
+        video.play().then(function(){
+          setTimeout(function(){ video.muted = false; applyVolume(); }, 300);
+          resolve(true);
+        }).catch(function(){ resolve(false); });
       };
+      video.oncanplay=successFn;
+      video.onplaying=successFn;
       video.onerror=function(){
         if(resolved)return;resolved=true;
-        clearTimeout(timer);video.oncanplay=null;video.onerror=null;
+        clearTimeout(timer);video.oncanplay=null;video.onerror=null;video.onplaying=null;
         if(removeCors&&hadCors)video.setAttribute('crossorigin','anonymous');
         resolve(false);
       };
@@ -1384,7 +1354,8 @@ async function tryNativePlayback(url,removeCors){
 
 function loadStreamSource(rawUrl,isHealRetry,sessionId){
   var url=rawUrl;
-  if(state.currentAttemptProxyIdx>0 && url.indexOf('edge-cache-token')===-1){
+  var isToffee = isToffeeUrl(url);
+  if(state.currentAttemptProxyIdx>0 && !isToffee){
     var proxy=FAST_PROXIES[(state.currentAttemptProxyIdx-1)%FAST_PROXIES.length];
     url=proxy+encodeURIComponent(rawUrl);
   }
@@ -1393,32 +1364,32 @@ function loadStreamSource(rawUrl,isHealRetry,sessionId){
   video.muted=true;applyVolume();
   videoBlocker.style.display='block';videoBlocker.style.backgroundColor='black';
   clearTimeout(noSignalTimer);
+  
+  var timeout = isToffee ? NOSIGNAL_TIMEOUT_TOFFEE : NOSIGNAL_TIMEOUT_MS;
   noSignalTimer=setTimeout(async function(){
     if (state.playSessionId !== sessionId) return;
     if (isVideoActuallyPlaying()) return;
+    
+    // If hls.js parsed the manifest but is just buffering, wait a bit longer
+    if (state.hls && state.hls.levels && state.hls.levels.length > 0 && video.readyState >= 1) {
+      return; 
+    }
+
     var currentCh=state.channels[state.currentIndex];
     if(currentCh&&!isHealRetry&&!state.healingInProgress){
-      var isToffee=currentCh.url.indexOf('edge-cache-token')!==-1;
       var healKey=normalizeName(currentCh.name);
       state.channelHealAttempts[healKey]=(state.channelHealAttempts[healKey]||0)+1;
       if(state.channelHealAttempts[healKey]<=MAX_HEAL_ATTEMPTS){
         var healed=await attemptAutoHeal(currentCh,state.currentIndex, sessionId);
         if(healed)return;
       }
-      if(!state.usingNativePlayer && (!state.hls || !state.hls.levels || state.hls.levels.length===0)){
-        var canPlayNativeHls = video.canPlayType('application/vnd.apple.mpegurl') !== '';
-        var urlIsHls = currentCh.url.indexOf('.m3u8') !== -1;
-        if(!urlIsHls || canPlayNativeHls){
-          var nativeOk=await tryNativePlayback(currentCh.url,!isToffee);
-          if(nativeOk)return;
-        }
-      }
     }
     noSignalScreen.classList.remove('hidden');
     noSignalScreen.classList.add('flex');
     dthLoadingState.classList.add('hidden');
     if(state.hls){try{state.hls.stopLoad()}catch(e){}}
-  }, NOSIGNAL_TIMEOUT_MS);
+  }, timeout);
+  
   if(Hls.isSupported()&&state.hls){
     try{state.hls.stopLoad()}catch(e){}
     state.hls.loadSource(url);
@@ -1427,26 +1398,48 @@ function loadStreamSource(rawUrl,isHealRetry,sessionId){
   }
 }
 
-function playChannel(ch,index){
+async function playChannel(ch,index){
   if(state.switching)return;
   var now = Date.now();
   if (now - state.lastSwitchTime < 500) return;
   state.lastSwitchTime = now;
   state.switching=true;
-  state.playSessionId++;
-  var currentSession = state.playSessionId;
-  state.currentIndex=index;state.currentAttemptProxyIdx=0;state.usingNativePlayer=false;
-  state.isZapping = true;
-  clearTimeout(window._zapTimer);
-  window._zapTimer = setTimeout(() => { state.isZapping = false; }, 3000);
-  var healKey=normalizeName(ch.name);state.channelHealAttempts[healKey]=0;
-  resetAGC();
-  showDTHOSD(ch,index,true);
-  setupAudioNormalization();
-  initHLS(currentSession);
-  loadStreamSource(ch.url, false, currentSession);
-  resetControlTimer();
-  state.switching=false;
+  
+  try {
+    state.playSessionId++;
+    var currentSession = state.playSessionId;
+    state.currentIndex=index;state.currentAttemptProxyIdx=0;state.usingNativePlayer=false;
+    state.isZapping = true;
+    clearTimeout(window._zapTimer);
+    window._zapTimer = setTimeout(() => { state.isZapping = false; }, 3000);
+    var healKey=normalizeName(ch.name);state.channelHealAttempts[healKey]=0;
+    showDTHOSD(ch,index,true);
+    refreshListHighlight();
+    
+    var chIsToffee = isToffeeUrl(ch.url);
+    var canPlayNativeHls = video.canPlayType('application/vnd.apple.mpegurl') !== '';
+    
+    if (chIsToffee) {
+      // ✅ Only try native HLS on iOS/Safari. On Android/Chrome, native HLS is unsupported and causes 5s delay.
+      if (canPlayNativeHls) {
+        var nativeOk = await tryNativePlayback(ch.url, true);
+        if (nativeOk) { resetControlTimer(); return; }
+      }
+      // Fallback for Chrome/WebView: Hls.js (may fail CORS, but it's the only option)
+      initHLS(currentSession);
+      loadStreamSource(ch.url, false, currentSession);
+    } else {
+      initHLS(currentSession);
+      loadStreamSource(ch.url, false, currentSession);
+    }
+    resetControlTimer();
+    firstPlayFullscreen();
+  } finally {
+    state.switching = false;
+  }
+}
+
+function firstPlayFullscreen(){
   if(!window._firstPlayDone){
     window._firstPlayDone=true;
     var onceFull=function(){
@@ -1478,13 +1471,11 @@ video.addEventListener('timeupdate', function(){
     videoBlocker.style.backgroundColor = 'transparent';
   }
 });
-
 video.addEventListener('error', function(){
   if (state.hls) return;
   clearTimeout(noSignalTimer);
   handleStreamPlaybackError();
 });
-
 video.addEventListener('playing',function(){
   videoBlocker.style.backgroundColor='transparent';
   clearTimeout(noSignalTimer);
@@ -1510,16 +1501,13 @@ function showDTHOSD(ch,index, isNewChannel){
   }
 }
 
-/* ==================== TAP HANDLER (TOUCH ONLY - NOT TV OK) ==================== */
+/* ==================== TAP HANDLER ==================== */
 function resetControlTimer(){
   playerControls.classList.remove('hidden-ui');
   clearTimeout(window.controlTimeout);
   window.controlTimeout=setTimeout(()=>{if(!video.paused)playerControls.classList.add('hidden-ui')},CONTROLS_AUTO_HIDE_MS);
 }
-
-// ✅ Only trigger on real touch/mouse click, NOT on TV remote OK
 function handleTap(){
-  setupAudioNormalization();
   var ch = state.channels[state.currentIndex];
   var wasHidden = playerControls.classList.contains('hidden-ui');
   if(wasHidden){
@@ -1529,16 +1517,12 @@ function handleTap(){
     togglePlayPause();
   }
 }
-
-// Attach touch/click handlers separately to avoid TV remote OK triggering
 videoBlocker.addEventListener('click', function(e){
-  // e.detail === 0 means keyboard-triggered click — ignore for TV
   if (e.detail === 0) return;
   handleTap();
 });
 videoBlocker.addEventListener('touchend', function(e){
-  e.preventDefault();
-  handleTap();
+  e.preventDefault(); handleTap();
 }, {passive:false});
 
 async function goFullscreen(){
@@ -1550,111 +1534,120 @@ async function goFullscreen(){
   }catch(e){}
 }
 
-/* ==================== KEYBOARD / TV REMOTE (FIXED) ==================== */
+/* ==================== KEYBOARD / TV REMOTE ==================== */
 var numberBuffer='',numberTimeout=null;
-let okHoldTimer = null;
-let okHeld = false;
-let okHoldFired = false;
 
-function isOkKey(e){
-  var kc = e.keyCode || e.which;
-  return e.key === 'Enter' || e.key === 'OK' || e.key === 'Select'
-    || e.code === 'Enter' || e.code === 'NumpadEnter'
-    || kc === 13 || kc === 23 || kc === 66;
+function getDigitChar(key, keyCode) {
+  if (key >= '0' && key <= '9') return key;
+  if (keyCode >= 48 && keyCode <= 57) return String.fromCharCode(keyCode);
+  if (keyCode >= 96 && keyCode <= 105) return String.fromCharCode(keyCode - 48);
+  return null;
+}
+function isOkKeyCode(key, keyCode){
+  return key === 'Enter' || key === 'OK' || key === 'Select'
+    || key === 'Accept' || key === 'Execute'
+    || keyCode === 13 || keyCode === 23 || keyCode === 66;
 }
 
-// ✅ KEY FIX: use capture:true, preventDefault, stopPropagation
-// and ignore e.repeat for OK. Also handle arrow keys reliably.
+function parseNumberBufferAndPlay() {
+  if (!numberBuffer) return;
+  var num = parseInt(numberBuffer, 10);
+  numberBuffer = '';
+  dthOverlay.classList.remove('show');
+  if (numberTimeout) { clearTimeout(numberTimeout); numberTimeout = null; }
+  if (num >= 1 && num <= state.channels.length) playChannel(state.channels[num-1], num-1);
+}
+
 window.addEventListener('keydown', function(e){
   var ae = document.activeElement;
   var isInput = ae && (ae.tagName === 'INPUT' || ae.tagName === 'TEXTAREA' || ae.isContentEditable);
   if (isInput) return;
 
-  // ✅ Handle OK / Enter
-  if (isOkKey(e)) {
+  var key = e.key || '';
+  var keyCode = e.keyCode || e.which || 0;
+
+  if (isOkKeyCode(key, keyCode)) {
     e.preventDefault();
     e.stopPropagation();
-
     var clModal = document.getElementById('channelListModal');
-    if (!clModal.classList.contains('hidden')) {
+    if (clModal && !clModal.classList.contains('hidden')) {
       var items = document.querySelectorAll('#listGrid > div');
       if (items.length > 0 && items[state.listFocusIndex]) items[state.listFocusIndex].click();
       return;
     }
-
-    if (e.repeat) return;  // ignore held repeat
-
-    if (!okHeld) {
-      okHeld = true;
-      okHoldFired = false;
-      okHoldTimer = setTimeout(() => {
-        okHoldFired = true;
-        if (navigator.vibrate) navigator.vibrate(40);
-        toggleChannelList();
-        // safety reset in case keyup never fires
-        setTimeout(function(){ if(okHoldFired){ okHeld=false; okHoldFired=false; } }, 1500);
-      }, OK_HOLD_MS);
-    }
     return;
   }
 
-  // ✅ Numbers
-  if (e.key >= '0' && e.key <= '9') {
+  var digitChar = getDigitChar(key, keyCode);
+  if (digitChar !== null) {
     e.preventDefault();
-    numberBuffer += e.key;
+    e.stopPropagation();
+    if (e.repeat) return;
+    numberBuffer += digitChar;
     dthChannelNum.textContent = numberBuffer;
     dthOverlay.classList.add('show');
     if (dthTimer) clearTimeout(dthTimer);
     if (numberTimeout) clearTimeout(numberTimeout);
-    numberTimeout = setTimeout(() => {
-      var num = parseInt(numberBuffer, 10);
-      numberBuffer = '';
-      dthOverlay.classList.remove('show');
-      if (num >= 1 && num <= state.channels.length) playChannel(state.channels[num-1], num-1);
-    }, 1500);
+    numberTimeout = setTimeout(function(){
+      parseNumberBufferAndPlay();
+    }, NUMPAD_BUFFER_MS);
     return;
   }
 
-  // ✅ Arrow keys inside channel list
   var clModal2 = document.getElementById('channelListModal');
-  if (!clModal2.classList.contains('hidden')) {
+  if (clModal2 && !clModal2.classList.contains('hidden')) {
     e.preventDefault();
     e.stopPropagation();
     var items2 = document.querySelectorAll('#listGrid > div');
     if (items2.length === 0) return;
-    if (e.key === 'ArrowDown') { state.listFocusIndex = Math.min(state.listFocusIndex + 1, items2.length - 1); updateListFocus(); }
-    else if (e.key === 'ArrowUp') { state.listFocusIndex = Math.max(state.listFocusIndex - 1, 0); updateListFocus(); }
-    else if (e.key === 'ArrowRight') { state.listFocusIndex = Math.min(state.listFocusIndex + 1, items2.length - 1); updateListFocus(); }
-    else if (e.key === 'ArrowLeft') { state.listFocusIndex = Math.max(state.listFocusIndex - 1, 0); updateListFocus(); }
-    else if (e.key === 'Escape' || e.key === 'Backspace') { toggleChannelList(); }
+    if (key === 'ArrowDown' || keyCode === 40) { state.listFocusIndex = Math.min(state.listFocusIndex + 1, items2.length - 1); updateListFocus(); }
+    else if (key === 'ArrowUp' || keyCode === 38) { state.listFocusIndex = Math.max(state.listFocusIndex - 1, 0); updateListFocus(); }
+    else if (key === 'ArrowRight' || keyCode === 39) { state.listFocusIndex = Math.min(state.listFocusIndex + 1, items2.length - 1); updateListFocus(); }
+    else if (key === 'ArrowLeft' || keyCode === 37) { state.listFocusIndex = Math.max(state.listFocusIndex - 1, 0); updateListFocus(); }
+    else if (key === 'Escape' || key === 'Backspace' || keyCode === 4 || keyCode === 8) { toggleChannelList(); }
     return;
   }
 
-  // ✅ Arrow keys on player
   var po = document.getElementById('playerOverlay');
   if (po && !po.classList.contains('hidden')) {
-    if (e.key === 'ArrowUp' || e.key === 'ChannelUp' || e.key === 'PageUp') { e.preventDefault(); e.stopPropagation(); playNextChannel(); }
-    else if (e.key === 'ArrowDown' || e.key === 'ChannelDown' || e.key === 'PageDown') { e.preventDefault(); e.stopPropagation(); playPrevChannel(); }
-    else if (e.key === 'ArrowLeft') { e.preventDefault(); e.stopPropagation(); state.volume = Math.max(0, state.volume - 0.1); applyVolume(); resetControlTimer(); }
-    else if (e.key === 'ArrowRight') { e.preventDefault(); e.stopPropagation(); state.volume = Math.min(1, state.volume + 0.1); applyVolume(); resetControlTimer(); }
-    else if (e.key === ' ') { e.preventDefault(); e.stopPropagation(); togglePlayPause(); }
-    else if (e.key === 'Escape' || e.key === 'Backspace') { e.preventDefault(); e.stopPropagation(); }
-    else if (e.key === 'l' || e.key === 'L') { e.preventDefault(); e.stopPropagation(); toggleChannelList(); }
+    if (key === 'ArrowUp' || keyCode === 38 || key === 'ChannelUp' || keyCode === 166) {
+      e.preventDefault(); e.stopPropagation(); playNextChannel(); return;
+    }
+    if (key === 'ArrowDown' || keyCode === 40 || key === 'ChannelDown' || keyCode === 167) {
+      e.preventDefault(); e.stopPropagation(); playPrevChannel(); return;
+    }
+    if (key === 'ArrowLeft' || keyCode === 37) {
+      e.preventDefault(); e.stopPropagation();
+      state.volume = Math.max(0, state.volume - 0.1); applyVolume(); resetControlTimer(); return;
+    }
+    if (key === 'ArrowRight' || keyCode === 39) {
+      e.preventDefault(); e.stopPropagation();
+      state.volume = Math.min(1, state.volume + 0.1); applyVolume(); resetControlTimer(); return;
+    }
+    if (key === ' ' || keyCode === 32) { e.preventDefault(); e.stopPropagation(); togglePlayPause(); return; }
+    if (key === 'Escape' || key === 'Backspace' || keyCode === 4) { e.preventDefault(); e.stopPropagation(); return; }
+    if (key === 'l' || key === 'L') { e.preventDefault(); e.stopPropagation(); toggleChannelList(); return; }
   }
 }, true);
 
 window.addEventListener('keyup', function(e){
-  if (!isOkKey(e)) return;
-  clearTimeout(okHoldTimer);
-  if (okHeld && !okHoldFired) {
-    var clModal = document.getElementById('channelListModal');
-    if (clModal.classList.contains('hidden')) {
-      // short press = play/pause (only if not from a real click)
-      togglePlayPause();
-    }
+  var key = e.key || '';
+  var keyCode = e.keyCode || e.which || 0;
+  var isDigit = getDigitChar(key, keyCode) !== null;
+  if (isDigit && numberBuffer.length >= 2) {
+    parseNumberBufferAndPlay();
+    return;
   }
-  okHeld = false;
-  okHoldFired = false;
+  
+  if (!isOkKeyCode(key, keyCode)) return;
+  var clModal = document.getElementById('channelListModal');
+  if (clModal && !clModal.classList.contains('hidden')) return;
+  var po = document.getElementById('playerOverlay');
+  if (!po || po.classList.contains('hidden')) return;
+  var ae = document.activeElement;
+  var isButton = ae && (ae.tagName === 'BUTTON' || ae.tagName === 'A' || ae.getAttribute('role') === 'button');
+  if (isButton) return;
+  togglePlayPause();
 }, true);
 
 /* ==================== PIN ==================== */
@@ -1670,7 +1663,7 @@ function promptAdminAuth(){
   modal.classList.remove('hidden');
   setTimeout(()=>{document.getElementById('adminPinInput').focus()},100);
 }
-function closePinModal(){document.getElementById('pinAuthModal').classList.add('hidden')}
+function closePinModal(){document.getElementById('pinAuthModal').classList.add('hidden');setTimeout(ensureFocus,50);}
 function verifyAdminPin(){
   var lock=parseInt(localStorage.getItem(LOCK_KEY)||'0',10);if(lock>Date.now())return;
   var pin=document.getElementById('adminPinInput').value.trim();
@@ -1701,7 +1694,7 @@ function openAddChannelWizard(){
   posInput.addEventListener('input',updateWizHints);
 }
 function closeAddChannelModal(){document.getElementById('addChannelModal').classList.add('hidden');document.getElementById('adminPanelModal').classList.remove('hidden')}
-function closeAdminPanel(){document.getElementById('adminPanelModal').classList.add('hidden')}
+function closeAdminPanel(){document.getElementById('adminPanelModal').classList.add('hidden');setTimeout(ensureFocus,50);}
 
 /* ==================== PLAYLIST MANAGER ==================== */
 let pmSortableInstance=null;
@@ -1717,7 +1710,7 @@ function renderPMList(){
     var row=document.createElement('div');
     row.className='ch-list-row rounded-xl p-2.5 flex items-center gap-2.5';
     row.dataset.index=i;
-    row.innerHTML='<div class="row-grip text-slate-500 hover:text-white px-2 py-3 relative z-10 flex items-center justify-center"><i class="fa-solid fa-grip-vertical"></i></div><div class="w-12 h-9 bg-slate-950 rounded flex items-center justify-center shrink-0 overflow-hidden relative z-10 pointer-events-none"><img src="'+esc(c.logo||'https://placehold.co/60x40/0b0f19/3b82f6?text=TV')+'" class="max-h-full max-w-full object-contain" referrerpolicy="no-referrer" crossorigin="anonymous" onerror="this.onerror=null;this.src=\'https://placehold.co/60x40/0b0f19/3b82f6?text=TV\'"></div><div class="min-w-0 flex-1 relative z-10 pointer-events-none"><div class="text-xs font-bold text-white truncate">'+esc(c.name)+'</div><div class="flex items-center gap-1.5 mt-0.5"><span class="text-[10px] text-brand-accent font-semibold uppercase">'+esc(c.category)+'</span></div></div><div class="flex items-center gap-1.5 relative z-10"><button class="pm-bolt px-2 py-1.5 bg-amber-500/20 hover:bg-amber-500 text-amber-300 hover:text-slate-950 rounded-lg text-[10px] font-bold border border-amber-500/40"><i class="fa-solid fa-bolt"></i></button><button class="pm-edit px-2 py-1.5 bg-brand-600/20 hover:bg-brand-600 text-brand-300 hover:text-white rounded-lg text-[10px] font-bold border border-brand-500/40"><i class="fa-solid fa-wrench"></i></button><button class="pm-del px-2 py-1.5 bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white rounded-lg text-[10px] font-bold border border-rose-500/40"><i class="fa-solid fa-trash"></i></button></div>';
+    row.innerHTML='<div class="row-grip text-slate-500 hover:text-white px-2 py-3 relative z-10 flex items-center justify-center"><i class="fa-solid fa-grip-vertical"></i></div><div class="w-12 h-9 bg-slate-950 rounded flex items-center justify-center shrink-0 overflow-hidden relative z-10 pointer-events-none"><img src="'+esc(c.logo||'https://placehold.co/60x40/0b0f19/3b82f6?text=TV')+'" class="max-h-full max-w-full object-contain" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=\'https://placehold.co/60x40/0b0f19/3b82f6?text=TV\'"></div><div class="min-w-0 flex-1 relative z-10 pointer-events-none"><div class="text-xs font-bold text-white truncate">'+esc(c.name)+'</div><div class="flex items-center gap-1.5 mt-0.5"><span class="text-[10px] text-brand-accent font-semibold uppercase">'+esc(c.category)+'</span></div></div><div class="flex items-center gap-1.5 relative z-10"><button class="pm-bolt px-2 py-1.5 bg-amber-500/20 hover:bg-amber-500 text-amber-300 hover:text-slate-950 rounded-lg text-[10px] font-bold border border-amber-500/40"><i class="fa-solid fa-bolt"></i></button><button class="pm-edit px-2 py-1.5 bg-brand-600/20 hover:bg-brand-600 text-brand-300 hover:text-white rounded-lg text-[10px] font-bold border border-brand-500/40"><i class="fa-solid fa-wrench"></i></button><button class="pm-del px-2 py-1.5 bg-rose-600/20 hover:bg-rose-600 text-rose-300 hover:text-white rounded-lg text-[10px] font-bold border border-rose-500/40"><i class="fa-solid fa-trash"></i></button></div>';
     row.querySelector('.pm-bolt').onclick=(ev)=>{ev.stopPropagation();pmDisturb(i)};
     row.querySelector('.pm-edit').onclick=(ev)=>{ev.stopPropagation();pmEdit(i)};
     row.querySelector('.pm-del').onclick=(ev)=>{ev.stopPropagation();pmRemove(i)};
@@ -1731,8 +1724,13 @@ function renderPMList(){
       var q2=(document.getElementById('pmSearch').value||'').trim();
       if(q2){ renderPMList(); return; }
       if(evt.oldIndex===evt.newIndex)return;
-      var item=state.channels.splice(evt.oldIndex,1)[0];
-      state.channels.splice(evt.newIndex,0,item);
+      var currentName = (state.currentIndex >= 0 && state.channels[state.currentIndex]) ? state.channels[state.currentIndex].name : null;
+      var item = state.channels.splice(evt.oldIndex, 1)[0];
+      state.channels.splice(evt.newIndex, 0, item);
+      if (currentName) {
+        var newIdx = state.channels.findIndex(c => c.name === currentName);
+        if (newIdx >= 0) state.currentIndex = newIdx;
+      }
       var activeSrc=state.sources.find(s=>s.id===state.activeSourceId);
       if(activeSrc)activeSrc.channels=JSON.parse(JSON.stringify(state.channels));
       saveChannels();saveSources();
@@ -1899,8 +1897,8 @@ async function startHealthCheck(){
     } catch(e){}
   }
   
-  document.getElementById('healthStatus').textContent='🔍 প্রতিটি চ্যানেলের আসল স্ট্রিম টেস্ট করা হচ্ছে...';
-  document.getElementById('healthStats').innerHTML = '<span class="text-slate-400">স্ট্রিম টেস্ট চলছে, অপেক্ষা করুন...</span>';
+  document.getElementById('healthStatus').textContent='🔍 আসল ভিডিও ডিকোড টেস্ট চলছে...';
+  document.getElementById('healthStats').innerHTML = '<span class="text-slate-400">অপেক্ষা করুন...</span>';
   
   var results = new Array(total);
   var done = 0;
@@ -1925,24 +1923,20 @@ async function startHealthCheck(){
       var idx = queue.shift();
       if (idx === undefined) break;
       var ch = channels[idx];
-      var isLive = false;
-      try {
-        isLive = await testStreamPlayable(ch.url);
-      } catch(e) { isLive = false; }
-      results[idx] = isLive;
-      if(isLive) liveCount++; else deadCount++;
+      var result = {live: false, method: ''};
+      try { result = await testChannelReal(ch.url); } catch(e) { result = {live: false, method: ''}; }
+      results[idx] = result.live;
+      if(result.live) liveCount++; else deadCount++;
       done++;
-      
       document.getElementById('healthProgressBar').style.width = (done / total * 100) + '%';
       document.getElementById('healthStatus').textContent = '🔍 ' + done + ' / ' + total + ' টেস্ট সম্পন্ন';
       document.getElementById('healthStats').innerHTML = '<span class="text-emerald-400">● '+liveCount+' LIVE</span> &nbsp; <span class="text-rose-400">● '+deadCount+' DEAD</span>';
-      
-      updateHealthResult(idx, ch, isLive);
+      updateHealthResult(idx, ch, result.live, result.method);
     }
   }
   
   var workers = [];
-  var concurrency = 6;
+  var concurrency = 3;
   for(var w = 0; w < concurrency; w++) workers.push(worker());
   await Promise.all(workers);
   
@@ -1951,14 +1945,15 @@ async function startHealthCheck(){
   btn.disabled=false;
   btn.innerHTML='<i class="fa-solid fa-rotate mr-1"></i> আবার চেক';
 }
-function updateHealthResult(index, ch, isLive){
+function updateHealthResult(index, ch, isLive, method){
   var el = document.getElementById('health-result-' + index);
   if (!el) return;
+  var methodLabel = method ? ' <span class="text-[8px] opacity-60">('+method+')</span>' : '';
   var html = '<div class="flex items-center gap-2 p-2 rounded-lg ' + (isLive ? 'bg-emerald-900/25 border border-emerald-700/30' : 'bg-rose-900/25 border border-rose-700/30') + '">' +
     '<div class="w-2.5 h-2.5 rounded-full shrink-0 ' + (isLive ? 'bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]' : 'bg-rose-500') + '"></div>' +
     '<div class="min-w-0 flex-1"><div class="text-xs text-white font-medium truncate">' + esc(ch.name) + '</div>' +
     '<div class="text-[9px] text-slate-500 uppercase">' + esc(ch.category) + '</div></div>' +
-    '<span class="text-[10px] font-black shrink-0 ' + (isLive ? 'text-emerald-400' : 'text-rose-400') + '">' + (isLive ? '● LIVE' : '● DEAD') + '</span>' +
+    '<span class="text-[10px] font-black shrink-0 ' + (isLive ? 'text-emerald-400' : 'text-rose-400') + '">' + (isLive ? '● LIVE' : '● DEAD') + methodLabel + '</span>' +
     '</div>';
   el.innerHTML = html;
 }
@@ -1982,8 +1977,7 @@ window.addEventListener('DOMContentLoaded',async function(){
   setTimeout(()=>{if(video.paused&&video.readyState<2&&state.channels.length>0)retryCurrentChannel()},7000);
   startInstantSyncListener();
   setTimeout(cleanupStaleUsers, 5000);
-  // Focus player so TV remote keys land reliably
-  setTimeout(function(){ try { document.getElementById('videoBlocker').focus(); } catch(e){} }, 1500);
+  setTimeout(ensureFocus, 1500);
 });
 
 /* ==================== ANDROID BACK ==================== */
@@ -1996,7 +1990,9 @@ window.addEventListener('popstate',function(e){
     if(el&&!el.classList.contains('hidden')){
       el.classList.add('hidden');
       if(ids[i]==='customConfirmModal')confirmCallback=null;
-      history.pushState({page:'home'},'',location.href);return;
+      history.pushState({page:'home'},'',location.href);
+      setTimeout(ensureFocus, 50);
+      return;
     }
   }
   if(document.getElementById('browseChannelsModal').classList.contains('show')){closeBrowseModal();history.pushState({page:'home'},'',location.href);return}
@@ -2011,7 +2007,7 @@ window.addEventListener('popstate',function(e){
   var acm=document.getElementById('addChannelModal');
   if(acm&&!acm.classList.contains('hidden')){acm.classList.add('hidden');document.getElementById('adminPanelModal').classList.remove('hidden');history.pushState({page:'home'},'',location.href);return}
   var adm=document.getElementById('adminPanelModal');
-  if(adm&&!adm.classList.contains('hidden')){adm.classList.add('hidden');history.pushState({page:'home'},'',location.href);return}
+  if(adm&&!adm.classList.contains('hidden')){adm.classList.add('hidden');history.pushState({page:'home'},'',location.href);setTimeout(ensureFocus,50);return}
   
   history.pushState({page:'home'},'',location.href);
   if(_exitPending) return;
@@ -2026,4 +2022,4 @@ window.addEventListener('popstate',function(e){
 });
 </script>
 </body>
-</html>
+                                                                                                                 </html>
